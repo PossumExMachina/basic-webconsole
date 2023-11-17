@@ -1,39 +1,18 @@
 package monitoring.controller;
 
 public class ResourceData {
-    private double cpuUsage;
-    private double memoryUsage;
-    private long freeDiskSpace;
+    private boolean isTomcatRunning;
 
 
-    public ResourceData(double cpuUsage, double memoryUsage, long freeDiskSpace) {
-        this.cpuUsage = cpuUsage;
-        this.memoryUsage = memoryUsage;
-        this.freeDiskSpace = freeDiskSpace;
+    public ResourceData(boolean isTomcatRunning) {
+        this.isTomcatRunning = isTomcatRunning;
     }
 
-
-    public double getCpuUsage() {
-        return cpuUsage;
+    public boolean isTomcatRunning() {
+        return isTomcatRunning;
     }
 
-    public void setCpuUsage(double cpuUsage) {
-        this.cpuUsage = cpuUsage;
-    }
-
-    public double getMemoryUsage() {
-        return memoryUsage;
-    }
-
-    public void setMemoryUsage(double memoryUsage) {
-        this.memoryUsage = memoryUsage;
-    }
-
-    public long getFreeDiskSpace() {
-        return freeDiskSpace;
-    }
-
-    public void setFreeDiskSpace(long freeDiskSpace) {
-        this.freeDiskSpace = freeDiskSpace;
+    public void setTomcatRunning(boolean tomcatRunning) {
+        isTomcatRunning = tomcatRunning;
     }
 }
