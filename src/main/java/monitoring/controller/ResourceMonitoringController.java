@@ -2,8 +2,8 @@ package monitoring.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.io.IOException;
 
 @RestController
 public class ResourceMonitoringController {
@@ -14,10 +14,18 @@ public class ResourceMonitoringController {
         this.resourceService = resourceService;
     }
 
+
     @GetMapping("/resources")
-    public ResourceData getResources() throws IOException, InterruptedException {
-        return resourceService.getServerResources();
+    public ModelAndView getResources() {
+        ModelAndView modelAndView = new ModelAndView("resourcesTemplate");
+        ResourceData resourceData = resourceService.getApplicationStatusResource();
+        modelAndView.addObject("resourceData", resourceData);
+        return modelAndView;
     }
+
+
+
+
 }
 
 
