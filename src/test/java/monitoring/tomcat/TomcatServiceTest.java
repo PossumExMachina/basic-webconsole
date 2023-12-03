@@ -22,8 +22,6 @@ class TomcatServiceTest {
     private ProcessBuilder processBuilder;
     @Mock
     private Process process;
-    @Mock
-    private BufferedReader bufferedReader;
 
     private TomcatService tomcatService;
 
@@ -73,8 +71,6 @@ class TomcatServiceTest {
 
     @Test
     public void testIsTomcatRunningIOException() throws IOException {
-
-        Logger mockLogger = mock(Logger.class);
 
         when(processBuilderFactory.createProcessBuilder(any(String[].class))).thenReturn(processBuilder);
         when(processBuilder.start()).thenThrow(new IOException("Test exception"));
