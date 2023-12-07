@@ -51,4 +51,34 @@ public class TomcatService {
     }
 
 
+
+    public TomcatState stopTomcat(){
+        String[] command = {"systemctl stop tomcat"};
+        return changeTomcatState(command);
+    }
+
+    public TomcatState startTomcat(){
+        String[] command = {"systemctl start tomcat"};
+        return changeTomcatState(command);
+    }
+
+    private TomcatState changeTomcatState(String[] command) {
+        ProcessBuilder processBuilder = processBuilderFactory.createProcessBuilder(command);
+        Process process;
+        try {
+            process = processBuilder.start();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        if (isTomcatRunning()){
+            return TomcatState.STOPPING;
+        }
+        return TomcatState.STOPPED;
+    }
+
+
+
 }
+
+
+
