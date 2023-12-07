@@ -69,7 +69,20 @@
         .card h2 {
             margin-top: 0;
         }
+        .button {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #e8491d;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
     </style>
+    link rel="stylesheet" href="css/styles.css">
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
 </head>
 <body>
@@ -116,7 +129,11 @@
             [#else]
                 <p style="color: darkgreen">Good job, all your apps are running.</p>
             [/#if]
-        <!-- More server details -->
+
+        <a href="/resources/tomcat" class="button">Go to detail</a>
+
+
+
     </div>
 
     <!-- Network Activity Card -->
