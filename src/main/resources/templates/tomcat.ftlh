@@ -102,7 +102,7 @@
     <!-- Server Information Card -->
     <div class="card">
         <i class="fas fa-cat"></i><h2>Regarding your Tomcat server, I have access to the following data: </h2>
-        [#if resourceData.tomcatRunning]
+        [#if resourceData.tomcatRunning == true]
             <p>Tomcat is running, no worries. </p>
         [#else]
             <p style="color: darkred">Tomcat is not running, I sure hope it's supposed to be that way. </p>

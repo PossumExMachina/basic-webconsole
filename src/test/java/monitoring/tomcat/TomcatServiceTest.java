@@ -37,7 +37,7 @@ class TomcatServiceTest {
     @Test
     public void testIsTomcatRunning() throws IOException {
 
-        String simulatedProcessOutput = "root      1234     1  0 Nov10 ?        00:00:00 /opt/tomcat/bin/org.apache.catalina.startup.Bootstrap start";
+        String simulatedProcessOutput = "active";
         ByteArrayInputStream bais = new ByteArrayInputStream(simulatedProcessOutput.getBytes());
         Process mockProcess = mock(Process.class);
 

@@ -25,7 +25,7 @@ public class TomcatService {
     public boolean isTomcatRunning() {
 
         // executes the following command on the server, which checks status of tomcat server
-        String[] command = {"/bin/sh", "-c", "ps -ef | grep '[o]rg.apache.catalina.startup.Bootstrap start'"};
+        String[] command = {"systemctl status tomcat"};
         ProcessBuilder processBuilder = processBuilderFactory.createProcessBuilder(command);
         Process process;
         try {
@@ -38,7 +38,7 @@ public class TomcatService {
         // invokes a reader, that reads from the output and checks for a line indicating that tomcat is running,
         // then it returns false if tomcat is stopped and true if it is not
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
-            boolean isRunning = reader.lines().anyMatch(line -> line.contains("org.apache.catalina.startup.Bootstrap"));
+            boolean isRunning = reader.lines().anyMatch(line -> line.contains("active"));
             process.waitFor();
             return isRunning;
         } catch (IOException e) {

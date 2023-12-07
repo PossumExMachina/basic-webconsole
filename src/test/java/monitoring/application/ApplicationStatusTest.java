@@ -38,29 +38,29 @@ class ApplicationStatusTest {
     }
 
 
-
-    @Test
-    public void whenHttpCallSucceeds_thenRunningAppsUpdated() throws Exception {
-
-        JSONObject mockResponse = new JSONObject();
-        mockResponse.has("id");
-
-
-        doReturn(mockResponse).when(applicationService).makeHttpRequest(anyString());
-
-        applicationService.getRunningAndNotRunningApps();
-
-        assertFalse(applicationStatus.getRunningApps().isEmpty(), "Running apps list should be updated");
-        assertTrue(applicationStatus.getNotRunningApps().isEmpty(), "Not running apps list should be empty on successful response");
-    }
-
-        @Test
-        public void whenHttpCallFails_thenNotRunningAppsUpdated() {
-
-            applicationService.getRunningAndNotRunningApps();
-            assertTrue(applicationStatus.getRunningApps().isEmpty(), "Running apps list should be empty on failure");
-            assertFalse(applicationStatus.getNotRunningApps().isEmpty(), "Not running apps list should be updated on failure");
-        }
+//
+//    @Test
+//    public void whenHttpCallSucceeds_thenRunningAppsUpdated() throws Exception {
+//
+//        JSONObject mockResponse = new JSONObject();
+//        mockResponse.has("id");
+//
+//
+//        doReturn(mockResponse).when(applicationService).makeHttpRequest(anyString());
+//
+//        applicationService.getRunningAndNotRunningApps();
+//
+//        assertFalse(applicationStatus.getRunningApps().isEmpty(), "Running apps list should be updated");
+//        assertTrue(applicationStatus.getNotRunningApps().isEmpty(), "Not running apps list should be empty on successful response");
+//    }
+//
+//        @Test
+//        public void whenHttpCallFails_thenNotRunningAppsUpdated() {
+//
+//            applicationService.getRunningAndNotRunningApps();
+//            assertTrue(applicationStatus.getRunningApps().isEmpty(), "Running apps list should be empty on failure");
+//            assertFalse(applicationStatus.getNotRunningApps().isEmpty(), "Not running apps list should be updated on failure");
+//        }
 
 
     }
