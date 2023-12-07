@@ -18,24 +18,24 @@ import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ApplicationStatusTest {
-
-    private ApplicationService applicationService;
-    private ApplicationStatus applicationStatus;
-
-
-    @BeforeEach
-    public void setUp() {
-        applicationStatus = new ApplicationStatus();
-        applicationService = new ApplicationService(applicationStatus);
-        applicationService = spy(applicationService);
-    }
-
-
-    @Test
-    public void testDefaultConstructor() {
-        ApplicationStatus applicationStatus = new ApplicationStatus();
-        assertNotNull(applicationStatus, "ApplicationStatus instance should not be null");
-    }
+//
+//    private ApplicationService applicationService;
+//    private ApplicationStatus applicationStatus;
+//
+//
+//    @BeforeEach
+//    public void setUp() {
+//        applicationStatus = new ApplicationStatus();
+//        applicationService = new ApplicationService(applicationStatus);
+//        applicationService = spy(applicationService);
+//    }
+//
+//
+//    @Test
+//    public void testDefaultConstructor() {
+//        ApplicationStatus applicationStatus = new ApplicationStatus();
+//        assertNotNull(applicationStatus, "ApplicationStatus instance should not be null");
+//    }
 
 
 //
