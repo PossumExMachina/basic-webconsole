@@ -37,7 +37,22 @@ class TomcatServiceTest {
     @Test
     public void testIsTomcatRunning() throws IOException {
 
-        String simulatedProcessOutput = "active";
+        String simulatedProcessOutput = "tomcat.service - Apache Tomcat Web Application Container\n" +
+                "     Loaded: loaded (/etc/systemd/system/tomcat.service; disabled; vendor preset: enabled)\n" +
+                "     Active: active (running) since Thu 2023-12-07 19:26:15 UTC; 1s ago\n" +
+                "    Process: 3116 ExecStart=/opt/tomcat/bin/startup.sh (code=exited, status=0/SUCCESS)\n" +
+                "   Main PID: 3126 (java)\n" +
+                "      Tasks: 21 (limit: 9336)\n" +
+                "     Memory: 322.3M\n" +
+                "        CPU: 2.956s\n" +
+                "     CGroup: /system.slice/tomcat.service\n" +
+                "             \\u2514\\u25003126 /usr/lib/jvm/java-1.19.0-openjdk-arm64/bin/java -Djava.util.logging.config.file=/opt/tomcat/conf/logging.properties -Djava.util.logging.m>\n" +
+                "\n" +
+                "Dec 07 19:26:15 raccoonbuntu systemd[1]: Starting Apache Tomcat Web Application Container...\n" +
+                "Dec 07 19:26:15 raccoonbuntu startup.sh[3116]: Existing PID file found during start.\n" +
+                "Dec 07 19:26:15 raccoonbuntu startup.sh[3116]: Removing/clearing stale PID file.\n" +
+                "Dec 07 19:26:15 raccoonbuntu startup.sh[3116]: Tomcat started.\n" +
+                "Dec 07 19:26:15 raccoonbuntu systemd[1]: Started Apache Tomcat Web Application Container.";
         ByteArrayInputStream bais = new ByteArrayInputStream(simulatedProcessOutput.getBytes());
         Process mockProcess = mock(Process.class);
 
@@ -53,7 +68,9 @@ class TomcatServiceTest {
     @Test
     public void testIsTomcatNotRunning() throws IOException {
 
-        String simulatedProcessOutput = "tomcat is not running";
+        String simulatedProcessOutput = "Apache Tomcat Web Application Container\n" +
+                "     Loaded: loaded (/etc/systemd/system/tomcat.service; disabled; vendor preset: enabled)\n" +
+                "     Active: inactive (dead)";
         ByteArrayInputStream bais = new ByteArrayInputStream(simulatedProcessOutput.getBytes());
         ProcessBuilder mockProcessBuilder = mock(ProcessBuilder.class);
 

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.regex.Pattern;
 
 @Service
 public class TomcatService {
@@ -22,58 +23,73 @@ public class TomcatService {
         this.processBuilderFactory = processBuilderFactory;
     }
 
+
+
     public boolean isTomcatRunning() {
-
-        // executes the following command on the server, which checks status of tomcat server
-        String[] command = {"systemctl status tomcat"};
-        ProcessBuilder processBuilder = processBuilderFactory.createProcessBuilder(command);
-        Process process;
+        String[] command = {"bash", "-c", "ps aux | grep tomcat | grep -v grep"};
+        Process process = null;
         try {
-            process = processBuilder.start();
-        } catch (IOException e) {
-            logger.error("Error starting process to check Tomcat status", e);
-            return false;
-        }
+            process = Runtime.getRuntime().exec(command);
 
-        // invokes a reader, that reads from the output and checks for a line indicating that tomcat is running,
-        // then it returns false if tomcat is stopped and true if it is not
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
-            boolean isRunning = reader.lines().anyMatch(line -> line.contains("active"));
-            process.waitFor();
-            return isRunning;
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line = reader.readLine();
+            if (line != null) {
+                return true;
+            }
         } catch (IOException e) {
-            logger.error("Error reading process output", e);
-        } catch (InterruptedException e) {
-            logger.error("Process interrupted", e);
-            Thread.currentThread().interrupt();
+            e.printStackTrace();
+        } finally {
+            if (process != null) {
+                process.destroy();
+            }
         }
         return false;
     }
 
 
 
-    public TomcatState stopTomcat(){
-        String[] command = {"systemctl stop tomcat"};
+    public TomcatState stopTomcat() {
+        String[] command = {"bash", "-c", "systemctl stop tomcat"};
         return changeTomcatState(command);
     }
 
     public TomcatState startTomcat(){
-        String[] command = {"systemctl start tomcat"};
+        String[] command = {"bash", "-c", "systemctl start tomcat"};
         return changeTomcatState(command);
     }
 
-    private TomcatState changeTomcatState(String[] command) {
-        ProcessBuilder processBuilder = processBuilderFactory.createProcessBuilder(command);
-        Process process;
+    public TomcatState changeTomcatState(String[] command) {
+        Process process = null;
         try {
-            process = processBuilder.start();
+            process = Runtime.getRuntime().exec(command);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            return TomcatState.FAILED; // Use FAILED state for exceptions
         }
-        if (isTomcatRunning()){
-            return TomcatState.STOPPING;
+
+        // Delay to allow command to take effect
+        try {
+            Thread.sleep(2000); // Wait for 2 seconds before the first check
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        return TomcatState.STOPPED;
+
+        // Poll the Tomcat status for a certain duration
+        int attempts = 10; // Number of attempts
+        for (int i = 0; i < attempts; i++) {
+            if (command[2].contains("stop") && !isTomcatRunning()) {
+                return TomcatState.STOPPED;
+            } else if (command[2].contains("start") && isTomcatRunning()) {
+                return TomcatState.RUNNING;
+            }
+            try {
+                Thread.sleep(1000); // Wait for 1 second before the next check
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return command[2].contains("stop") ? TomcatState.STOPPED : TomcatState.RUNNING;
     }
 
 
