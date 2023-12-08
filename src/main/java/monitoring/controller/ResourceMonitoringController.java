@@ -49,7 +49,7 @@ public class ResourceMonitoringController {
     @PostMapping("/tomcat/start")
     public ModelAndView startTomcat() {
         tomcatService.startTomcat();
-        return new ModelAndView("redirect:/resources");
+        return new ModelAndView("redirect:/");
     }
 
 }
