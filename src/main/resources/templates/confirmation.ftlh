@@ -81,7 +81,6 @@
             transition: background-color 0.3s;
         }
     </style>
-    link rel="stylesheet" href="css/styles.css">
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
 </head>
@@ -102,7 +101,8 @@
 <div class="container">
     <!-- Action confirmation card -->
     <div class="card">
-        <p></p>
+
+        <p> Action was successfully performed. </p>
         <a href="/" class="button">Go back</a>
 
     </div>

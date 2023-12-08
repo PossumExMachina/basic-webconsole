@@ -81,7 +81,7 @@
             transition: background-color 0.3s;
         }
     </style>
-    link rel="stylesheet" href="css/styles.css">
+
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
 </head>
@@ -104,7 +104,7 @@
     <div class="card">
         <i class="fas fa-cat"></i><h2>Regarding your Tomcat server, I have access to the following data: </h2>
             [#if resourceData.tomcatRunning]
-                <p>Tomcat is running, no worries. </p>
+                <p style="color: darkgreen"> Tomcat is running, no worries. </p>
             [#else]
                 <p style="color: darkred">Tomcat is not running, I sure hope it's supposed to be that way. </p>
             [/#if]
