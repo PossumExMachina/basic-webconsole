@@ -9,7 +9,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 @RestController
-@RequestMapping("/resources")
 public class ResourceMonitoringController {
 
 
@@ -22,7 +21,7 @@ public class ResourceMonitoringController {
     }
 
 
-    @GetMapping("")
+    @GetMapping("/")
     public ModelAndView getResources() {
         ModelAndView modelAndView = new ModelAndView("resourcesTemplate");
         ResourceData resourceData = resourceService.getApplicationStatusResource();
@@ -43,13 +42,18 @@ public class ResourceMonitoringController {
     @PostMapping("/tomcat/stop")
     public ModelAndView stopTomcat() {
         tomcatService.stopTomcat();
-        return new ModelAndView("redirect:/resources");
+        return new ModelAndView("redirect:/tomcat/confirmation");
+    }
+
+    @GetMapping("/tomcat/confirmation")
+    public ModelAndView getConfirmation() {
+        return new ModelAndView("confirmation");
     }
 
     @PostMapping("/tomcat/start")
     public ModelAndView startTomcat() {
         tomcatService.startTomcat();
-        return new ModelAndView("redirect:/resources");
+        return new ModelAndView("redirect:/tomcat/confirmation");
     }
 
 }
