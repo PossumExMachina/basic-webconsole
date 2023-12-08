@@ -15,12 +15,10 @@ import java.util.regex.Pattern;
 @Service
 public class TomcatService {
 
-    private static final Logger logger = LoggerFactory.getLogger(TomcatService.class);
-    private final ProcessBuilderFactory processBuilderFactory;
 
     @Autowired
-    public TomcatService(ProcessBuilderFactory processBuilderFactory) {
-        this.processBuilderFactory = processBuilderFactory;
+    public TomcatService() {
+
     }
 
 
@@ -89,7 +87,7 @@ public class TomcatService {
             }
         }
 
-        return command[2].contains("stop") ? TomcatState.STOPPED : TomcatState.RUNNING;
+        return command[2].contains("stop") && !isTomcatRunning() ? TomcatState.STOPPED : TomcatState.RUNNING;
     }
 
 
