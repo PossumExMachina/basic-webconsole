@@ -132,11 +132,11 @@
     </div>
 
     <!-- Control buttons -->
-    <form action="/resources/tomcat/stop" method="post" class="button">
+    <form action="/tomcat/stop" method="post" class="button">
         <button type="submit" value="Stop Tomcat" >Stop Server</button>
     </form>
 
-    <form action="/resources/tomcat/start" method="post" class="button">
+    <form action="/tomcat/start" method="post" class="button">
     <button type="submit" value="Starca Tomcat" >Start Server</button>
     </form>
 

@@ -130,7 +130,7 @@
                 <p style="color: darkgreen">Good job, all your apps are running.</p>
             [/#if]
 
-        <a href="/resources/tomcat" class="button">Go to detail</a>
+        <a href="/tomcat" class="button">Go to detail</a>
 
 
 

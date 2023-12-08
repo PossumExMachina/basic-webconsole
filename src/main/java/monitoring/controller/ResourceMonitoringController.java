@@ -42,7 +42,7 @@ public class ResourceMonitoringController {
     @PostMapping("/tomcat/stop")
     public ModelAndView stopTomcat() {
         tomcatService.stopTomcat();
-        return new ModelAndView("redirect:/tomcat/confirmation");
+        return new ModelAndView("redirect:confirmation");
     }
 
     @GetMapping("/tomcat/confirmation")

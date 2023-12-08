@@ -103,7 +103,7 @@
     <!-- Action confirmation card -->
     <div class="card">
         <p></p>
-        <a href="/resources/tomcat" class="button">Go to detail</a>
+        <a href="/" class="button">Go back</a>
 
     </div>
 
