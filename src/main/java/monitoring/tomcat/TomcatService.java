@@ -1,27 +1,18 @@
 package monitoring.tomcat;
 
-import monitoring.ProcessBuilderFactory;
-import monitoring.tomcat.TomcatStatus;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.regex.Pattern;
 
 @Service
 public class TomcatService {
 
-
-    @Autowired
     public TomcatService() {
 
     }
-
-
 
     public boolean isTomcatRunning() {
         String[] command = {"bash", "-c", "ps aux | grep tomcat | grep -v grep"};

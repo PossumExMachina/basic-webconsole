@@ -69,7 +69,6 @@
         .card h2 {
             margin-top: 0;
         }
-
         .button {
             display: inline-block;
             padding: 10px 15px;
@@ -82,6 +81,7 @@
             transition: background-color 0.3s;
         }
     </style>
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
 </head>
 <body>
@@ -99,46 +99,14 @@
 </header>
 
 <div class="container">
-    <!-- Server Information Card -->
+    <!-- Action confirmation card -->
     <div class="card">
-        <i class="fas fa-cat"></i><h2>Regarding your Tomcat server, I have access to the following data: </h2>
-        [#if resourceData.tomcatRunning == true]
-            <p>Tomcat is running, no worries. </p>
-        [#else]
-            <p style="color: darkred">Tomcat is not running, I sure hope it's supposed to be that way. </p>
-        [/#if]
-        [#if resourceData.runningApplications?size gt 0]
-            <h2>Running Applications</h2>
-            <ul>
-                [#list resourceData.runningApplications as app]
-                    <li style="color: darkgreen">${app}</li>
-                [/#list]
-            </ul>
-        [#else]
-            <p>No applications are currently running.</p>
-        [/#if]
 
-        [#if resourceData.notRunningApplications?size gt 0]
-            <h2>These apps are dead: </h2>
-            <ul>
-                [#list resourceData.notRunningApplications as app]
-                    <li style="color: darkred">${app}</li>
-                [/#list]
-            </ul>
-        [#else]
-            <p style="color: darkgreen">Good job, all your apps are running.</p>
-        [/#if]
+        <p> Action was successfully performed. </p>
+        <a href="/" class="button">Go back</a>
 
     </div>
 
-    <!-- Control buttons -->
-    <form action="/tomcat/stop" method="post" class="button">
-        <button type="submit" value="Stop Tomcat" >Stop Server</button>
-    </form>
-
-    <form action="/tomcat/start" method="post" class="button">
-    <button type="submit" value="Starca Tomcat" >Start Server</button>
-    </form>
 
 </div>
 </body>
