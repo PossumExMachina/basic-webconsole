@@ -1,7 +1,7 @@
-package monitoring.application;
+package monitoring.appServer.application;
 
 
-import monitoring.tomcat.TomcatService;
+import monitoring.appServer.tomcat.TomcatService;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
@@ -20,14 +20,14 @@ import java.util.List;
 
 @Service
 public class ApplicationService {
-    private final ApplicationStatus applicationStatus;
+
+    @Autowired
+    private ApplicationStatus applicationStatus;
     private static final Logger logger = LoggerFactory.getLogger(TomcatService.class);
     JSONParser parser = new JSONParser(JSONParser.MODE_PERMISSIVE);
 
 
-    @Autowired
-    public ApplicationService(ApplicationStatus applicationStatus) {
-        this.applicationStatus = applicationStatus;
+    public ApplicationService() {
     }
 
 
@@ -69,7 +69,7 @@ public class ApplicationService {
         }
     }
 
-    List<String> getApplicationName(){
+    public List<String> getApplicationName(){
         File folder = new File("/opt/prod/webapps");
 
         String mandatoryFile = "jokrocova"; // mandatory file is used to check if the directory is app directory

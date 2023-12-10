@@ -1,17 +1,22 @@
-package monitoring.controller;
+package monitoring.appServer.controller;
 
 import java.util.List;
 
-public class ResourceData {
+public class AppServerData {
     private List<String> runningApplications;
     private List<String> notRunningApplications;
     private boolean isTomcatRunning;
+    private List<String> diskUsage;
+    private List<String> freeMemory;
 
 
-    public ResourceData(List<String> runningApplications, List<String> notRunningApplications, boolean isTomcatRunning) {
+
+    public AppServerData(List<String> runningApplications, List<String> notRunningApplications, boolean isTomcatRunning, List<String> diskUsage, List<String> freeMemory) {
         this.runningApplications = runningApplications;
         this.notRunningApplications = notRunningApplications;
         this.isTomcatRunning = isTomcatRunning;
+        this.diskUsage = diskUsage;
+        this.freeMemory = freeMemory;
     }
 
     public List<String> getRunningApplications() {
@@ -27,5 +32,11 @@ public class ResourceData {
         return isTomcatRunning;
     }
 
+    public List<String> getDiskUsage() {
+        return diskUsage;
+    }
 
+    public List<String> getFreeMemory() {
+        return freeMemory;
+    }
 }

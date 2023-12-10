@@ -1,6 +1,5 @@
-package monitoring.tomcat;
+package monitoring.appServer.tomcat;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -34,8 +33,6 @@ public class TomcatService {
         }
         return false;
     }
-
-
 
     public TomcatState stopTomcat() {
         String[] command = {"bash", "-c", "systemctl stop tomcat"};

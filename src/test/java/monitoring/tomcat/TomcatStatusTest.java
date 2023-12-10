@@ -1,15 +1,10 @@
 package monitoring.tomcat;
 
-import org.junit.jupiter.api.BeforeEach;
+import monitoring.appServer.tomcat.TomcatStatus;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
-import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 class TomcatStatusTest {
 

@@ -102,11 +102,11 @@
 <div class="container">
     <!-- Server Information Card -->
     <div class="card">
-        <i class="fas fa-cat"></i><h2>Regarding your Tomcat server, I have access to the following data: </h2>
+        <i class="fas fa-cat"></i><h2>Tomcat Status: </h2>
             [#if resourceData.tomcatRunning]
-                <p style="color: darkgreen"> Tomcat is running, no worries. </p>
+                <p style="color: darkgreen"> Tomcat is running. </p>
             [#else]
-                <p style="color: darkred">Tomcat is not running, I sure hope it's supposed to be that way. </p>
+                <p style="color: darkred">Tomcat is not running. </p>
             [/#if]
             [#if resourceData.runningApplications?size gt 0]
                 <h2>Running Applications</h2>
@@ -135,13 +135,14 @@
 
 
     </div>
-
-    <!-- Network Activity Card -->
+    <i class="fas fa-cat"></i><h2>Disk Usage: </h2>
+    [#if resourceData.diskUsage.empty]
+        <p style="color: darkgreen"> No data </p>
+    [#else]
+        <p style="color: darkred">${resourceData.diskUsage}</p>
+    [/#if]
     <div class="card">
-        <h2>Network Activity</h2>
-        <p>Incoming Traffic: ...</p>
-        <p>Outgoing Traffic: ...</p>
-        <!-- More network details -->
+
     </div>
 
     <!-- Additional cards for other resources -->

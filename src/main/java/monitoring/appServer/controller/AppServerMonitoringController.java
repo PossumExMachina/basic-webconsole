@@ -1,39 +1,41 @@
-package monitoring.controller;
+package monitoring.appServer.controller;
 
-import monitoring.tomcat.TomcatService;
+import monitoring.appServer.tomcat.TomcatService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
+
 
 @RestController
-public class ResourceMonitoringController {
+public class AppServerMonitoringController {
 
+@Autowired
+    private AppServerService resourceService;
 
-    private final ResourceService resourceService;
-    private final TomcatService tomcatService;
+    @Autowired
+    private TomcatService tomcatService;
 
-    public ResourceMonitoringController(ResourceService resourceService, TomcatService tomcatService) {
-        this.resourceService = resourceService;
-        this.tomcatService = tomcatService;
+    public AppServerMonitoringController() {
+
     }
 
 
     @GetMapping("/")
-    public ModelAndView getResources() {
+    public ModelAndView getResources() throws IOException {
         ModelAndView modelAndView = new ModelAndView("resourcesTemplate");
-        ResourceData resourceData = resourceService.getApplicationStatusResource();
+        AppServerData resourceData = resourceService.getApplicationStatusResource();
         modelAndView.addObject("resourceData", resourceData);
         return modelAndView;
     }
 
-
-
     @GetMapping("/tomcat")
-    public ModelAndView getTomcat() {
+    public ModelAndView getTomcat() throws IOException {
         ModelAndView modelAndView = new ModelAndView("tomcat");
-        ResourceData resourceData = resourceService.getApplicationStatusResource();
+        AppServerData resourceData = resourceService.getApplicationStatusResource();
         modelAndView.addObject("resourceData", resourceData);
         return modelAndView;
     }

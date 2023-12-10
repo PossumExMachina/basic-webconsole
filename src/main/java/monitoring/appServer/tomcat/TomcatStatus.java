@@ -1,4 +1,4 @@
-package monitoring.tomcat;
+package monitoring.appServer.tomcat;
 import org.springframework.stereotype.Component;
 
 
