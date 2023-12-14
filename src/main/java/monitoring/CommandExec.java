@@ -13,6 +13,9 @@ import java.util.List;
 @Service
 public class CommandExec {
 
+    public CommandExec() {
+    }
+
     public List<String> executeCommand(String command) throws IOException {List<String> output = new ArrayList<>();
         ProcessBuilder processBuilder = new ProcessBuilder("bash", "-c", command);
         Process process;

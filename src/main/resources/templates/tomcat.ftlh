@@ -32,7 +32,6 @@
             padding: 0;
             margin: 0;
             list-style: none;
-            overflow: hidden;
         }
         header li {
             float: left;
@@ -54,7 +53,7 @@
             font-weight: bold;
         }
         header a:hover {
-            color: #ffffff;
+            color: #e8491d; /* Corrected color for hover state */
             font-weight: bold;
         }
         .card {
@@ -72,14 +71,17 @@
 
         .button {
             display: inline-block;
-            padding: 10px 15px;
+            padding: 10px 20px; /* Adjust padding for better visual */
             background-color: #e8491d;
             color: white;
+            border: none; /* Remove default border */
             text-decoration: none;
             font-weight: bold;
             text-transform: uppercase;
             border-radius: 5px;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            cursor: pointer; /* Cursor pointer */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
     </style>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
@@ -92,7 +94,7 @@
         </div>
         <nav>
             <ul>
-                <li class="current"><a href="/resources">Resources</a></li>
+                <li class="current"><a href="/">Resources</a></li>
             </ul>
         </nav>
     </div>
@@ -131,6 +133,9 @@
 
     </div>
 
+    <div class="card">
+        <i class="fas fa-cat"></i><h2>Control panel: </h2>
+
     <!-- Control buttons -->
     <form action="/tomcat/stop" method="post" class="button">
         <button type="submit" value="Stop Tomcat" >Stop Server</button>
@@ -139,6 +144,7 @@
     <form action="/tomcat/start" method="post" class="button">
     <button type="submit" value="Starca Tomcat" >Start Server</button>
     </form>
+    </div>
 
 </div>
 </body>

@@ -1,5 +1,8 @@
 package monitoring.serverResources.disk;
 
+import monitoring.CommandExec;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -10,30 +13,20 @@ import java.util.List;
 
 @Service
 public class DiskService {
+    @Autowired
+    CommandExec commandExec;
 
     public DiskService() {
     }
 
     public List<String> getDiskUsage() throws IOException {
-        List<String> diskUsage = new ArrayList<>();
-        Process p = null;
-        try {
-            p = new ProcessBuilder().command("bash","-c","df -h").start();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        String command = "df -h";
+        List<String> diskUsage = commandExec.executeCommand(command);
+        if (diskUsage != null && !diskUsage.isEmpty()) {
+            return diskUsage;
+        } else {
+            throw new IOException("Failed to get memory usage: No output from command");
         }
-        try {
-            p.waitFor();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
-        String s;
-        while((s = br.readLine()) != null)
-        {
-            diskUsage.add(s + "\n");
-        }
-        return diskUsage;
     }
 
 }

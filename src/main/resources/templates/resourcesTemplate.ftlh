@@ -54,7 +54,7 @@
             font-weight: bold;
         }
         header a:hover {
-            color: #ffffff;
+            color: #e8491d; /* Corrected color for hover state */
             font-weight: bold;
         }
         .card {
@@ -93,7 +93,7 @@
         </div>
         <nav>
             <ul>
-                <li class="current"><a href="/resources">Resources</a></li>
+                <li class="current"><a href="/">Resources</a></li>
             </ul>
         </nav>
     </div>
@@ -109,7 +109,7 @@
                 <p style="color: darkred">Tomcat is not running. </p>
             [/#if]
             [#if resourceData.runningApplications?size gt 0]
-                <h2>Running Applications</h2>
+                <h3>Running Applications</h3>
                 <ul>
                     [#list resourceData.runningApplications as app]
                         <li style="color: darkgreen">${app}</li>
@@ -120,7 +120,7 @@
             [/#if]
 
             [#if resourceData.notRunningApplications?size gt 0]
-                <h2>These apps are dead: </h2>
+                <h3>Dead applications: </h3>
                 <ul>
                     [#list resourceData.notRunningApplications as app]
                         <li style="color: darkred">${app}</li>
@@ -131,18 +131,34 @@
             [/#if]
 
         <a href="/tomcat" class="button">Go to detail</a>
-
-
-
     </div>
-    <i class="fas fa-cat"></i><h2>Disk Usage: </h2>
-    [#if resourceData.diskUsage.empty]
-        <p style="color: darkgreen"> No data </p>
-    [#else]
-        <p style="color: darkred">${resourceData.diskUsage}</p>
-    [/#if]
-    <div class="card">
 
+
+
+        <div class="card">
+            <h2>Disk Usage:</h2>
+            [#if resourceData.diskUsage?? && resourceData.diskUsage?size > 0]
+                <ul>
+                    [#list resourceData.diskUsage as usage]
+                        <li>${usage}</li>
+                    [/#list]
+                </ul>
+            [#else]
+                <p style="color: darkred">Disk usage data is not available.</p>
+            [/#if]
+        </div>
+
+    <div class="card">
+        <h2>Memory Usage:</h2>
+        [#if resourceData.freeMemory?? && resourceData.freeMemory?size > 0]
+            <ul>
+                [#list resourceData.freeMemory as memory]
+                    <li>${memory}</li>
+                [/#list]
+            </ul>
+        [#else]
+            <p style="color: darkred">Memory usage data is not available.</p>
+        [/#if]
     </div>
 
     <!-- Additional cards for other resources -->

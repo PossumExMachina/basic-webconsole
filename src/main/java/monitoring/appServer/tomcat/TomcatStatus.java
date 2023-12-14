@@ -1,12 +1,6 @@
 package monitoring.appServer.tomcat;
 import org.springframework.stereotype.Component;
 
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
-
 @Component
 public class TomcatStatus {
 
