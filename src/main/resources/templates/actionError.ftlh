@@ -32,6 +32,7 @@
             padding: 0;
             margin: 0;
             list-style: none;
+            overflow: hidden;
         }
         header li {
             float: left;
@@ -53,7 +54,7 @@
             font-weight: bold;
         }
         header a:hover {
-            color: #e8491d; /* Corrected color for hover state */
+            color: #ffffff;
             font-weight: bold;
         }
         .card {
@@ -68,22 +69,19 @@
         .card h2 {
             margin-top: 0;
         }
-
         .button {
             display: inline-block;
-            padding: 10px 20px; /* Adjust padding for better visual */
+            padding: 10px 15px;
             background-color: #e8491d;
             color: white;
-            border: none; /* Remove default border */
             text-decoration: none;
             font-weight: bold;
             text-transform: uppercase;
             border-radius: 5px;
-            transition: background-color 0.3s, box-shadow 0.3s;
-            cursor: pointer; /* Cursor pointer */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s;
         }
     </style>
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
 </head>
 <body>
@@ -94,57 +92,21 @@
         </div>
         <nav>
             <ul>
-                <li class="current"><a href="/">Resources</a></li>
+                <li class="current"><a href="/resources">Resources</a></li>
             </ul>
         </nav>
     </div>
 </header>
 
 <div class="container">
-    <!-- Server Information Card -->
+    <!-- Action confirmation card -->
     <div class="card">
-        <i class="fas fa-cat"></i><h2>Regarding your Tomcat server, I have access to the following data: </h2>
-        [#if resourceData.tomcatRunning == true]
-            <p>Tomcat is running, no worries. </p>
-        [#else]
-            <p style="color: darkred">Tomcat is not running. </p>
-        [/#if]
-        [#if resourceData.runningApplications?size gt 0]
-            <h2>Running Applications</h2>
-            <ul>
-                [#list resourceData.runningApplications as app]
-                    <li style="color: darkgreen">${app}</li>
-                [/#list]
-            </ul>
-        [#else]
-            <p>No applications are currently running.</p>
-        [/#if]
 
-        [#if resourceData.notRunningApplications?size gt 0]
-            <h2>Stopped applications: </h2>
-            <ul>
-                [#list resourceData.notRunningApplications as app]
-                    <li style="color: darkred">${app}</li>
-                [/#list]
-            </ul>
-        [#else]
-            <p style="color: darkgreen">Good job, all your apps are running.</p>
-        [/#if]
+        <p> Something went wrong. Please try again later. </p>
+        <a href="/" class="button">Go back</a>
 
     </div>
 
-    <div class="card">
-        <i class="fas fa-cat"></i><h2>Control panel: </h2>
-
-    <!-- Control buttons -->
-    <form action="/tomcat/stop" method="post" class="button">
-        <button type="submit" value="Stop Tomcat" >Stop Server</button>
-    </form>
-
-    <form action="/tomcat/start" method="post" class="button">
-    <button type="submit" value="Starca Tomcat" >Start Server</button>
-    </form>
-    </div>
 
 </div>
 </body>

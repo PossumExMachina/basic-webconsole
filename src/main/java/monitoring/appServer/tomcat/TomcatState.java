@@ -1,5 +1,5 @@
 package monitoring.appServer.tomcat;
 
 public enum TomcatState {
-    RUNNING, STOPPED, FAILED
+    RUNNING, STOPPED, UNKNOWN
 }

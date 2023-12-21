@@ -1,6 +1,7 @@
-package monitoring.appServer.controller;
+package monitoring.appServer.common;
 
 import monitoring.appServer.tomcat.TomcatService;
+import monitoring.appServer.tomcat.TomcatState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,15 +12,15 @@ import java.io.IOException;
 
 
 @RestController
-public class AppServerMonitoringController {
+public class ServerMonitoringController {
 
-@Autowired
-    private AppServerService resourceService;
+    @Autowired
+    private ServerService resourceService;
 
     @Autowired
     private TomcatService tomcatService;
 
-    public AppServerMonitoringController() {
+    public ServerMonitoringController() {
 
     }
 
@@ -27,7 +28,7 @@ public class AppServerMonitoringController {
     @GetMapping("/")
     public ModelAndView getResources() throws IOException {
         ModelAndView modelAndView = new ModelAndView("resourcesTemplate");
-        AppServerData resourceData = resourceService.getApplicationStatusResource();
+        AllServerData resourceData = resourceService.getApplicationStatusResource();
         modelAndView.addObject("resourceData", resourceData);
         return modelAndView;
     }
@@ -35,26 +36,36 @@ public class AppServerMonitoringController {
     @GetMapping("/tomcat")
     public ModelAndView getTomcat() throws IOException {
         ModelAndView modelAndView = new ModelAndView("tomcat");
-        AppServerData resourceData = resourceService.getApplicationStatusResource();
+        AllServerData resourceData = resourceService.getApplicationStatusResource();
         modelAndView.addObject("resourceData", resourceData);
         return modelAndView;
     }
 
-    @PostMapping("/tomcat/stop")
-    public ModelAndView stopTomcat() {
-        tomcatService.stopTomcat();
-        return new ModelAndView("redirect:confirmation");
-    }
 
     @GetMapping("/tomcat/confirmation")
     public ModelAndView getConfirmation() {
         return new ModelAndView("confirmation");
     }
 
+    @GetMapping("/tomcat/actionError")
+    public ModelAndView getErrorPage() {
+        return new ModelAndView("actionError");
+    }
+
     @PostMapping("/tomcat/start")
     public ModelAndView startTomcat() {
-        tomcatService.startTomcat();
-        return new ModelAndView("redirect:/tomcat/confirmation");
+        if (tomcatService.startTomcat() == TomcatState.RUNNING) {
+            return new ModelAndView("redirect:/tomcat/confirmation");
+        }
+        else return new ModelAndView("redirect:/tomcat/actionError");
+    }
+
+    @PostMapping("/tomcat/stop")
+    public ModelAndView stopTomcat() {
+        if (tomcatService.stopTomcat() == TomcatState.STOPPED) {
+            return new ModelAndView("redirect:/tomcat/confirmation");
+        }
+        else return new ModelAndView("redirect:/tomcat/actionError");
     }
 
 }

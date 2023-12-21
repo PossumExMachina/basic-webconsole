@@ -1,7 +1,6 @@
-package monitoring;
-
+package monitoring.commands;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -12,6 +11,7 @@ import java.util.List;
 
 @Service
 public class CommandExec {
+
 
     public CommandExec() {
     }
@@ -41,6 +41,9 @@ public class CommandExec {
             throw new IOException("Error starting the process for command: " + command, e);
         }
     }
+
+
+
 
 
 }

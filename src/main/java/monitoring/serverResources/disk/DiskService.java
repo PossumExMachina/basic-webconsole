@@ -1,5 +1,5 @@
 package monitoring.serverResources.disk;
-import monitoring.CommandExec;
+import monitoring.commands.CommandExec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
