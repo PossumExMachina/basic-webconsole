@@ -20,7 +20,7 @@ public class TomcatWebappScannerService {
 
         String mandatoryFile = "META-INF"; // mandatory file is used to check if the directory is app directory
         File[] directories = folder.listFiles();
-        List<String> nameList = new ArrayList<>();
+        List<String> appList = new ArrayList<>();
 
         if (directories != null) {
             for (File dir : directories) {
@@ -28,13 +28,13 @@ public class TomcatWebappScannerService {
                 if (subdirs != null) {                // checks if the mandatory file is present in subdirectory
                     for (File file : subdirs) {
                         if (file.getName().contains(mandatoryFile)) {
-                            nameList.add(dir.getName());
+                            appList.add(dir.getName());
                         }
                     }
                 }
             }
         }
-        return Optional.of(nameList);
+        return Optional.of(appList);
     }
 
 }

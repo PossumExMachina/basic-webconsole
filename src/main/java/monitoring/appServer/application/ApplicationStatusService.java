@@ -1,10 +1,5 @@
 package monitoring.appServer.application;
-import monitoring.appServer.tomcat.TomcatCommandService;
-import monitoring.appServer.tomcat.TomcatService;
-import net.minidev.json.JSONObject;
-import net.minidev.json.parser.ParseException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,12 +25,13 @@ public class ApplicationStatusService {
 
         for (String url : urlList) {
             try {
-                JSONObject json = urlService.makeHttpRequest(url);
-                if (!json.containsValue("UP")) {
+                JsonNode json = urlService.makeHttpRequest(url);
+                String status = json.get("status").toString().toUpperCase(); // Convert to upper case
+                if (!"UP".equals(status)) {
                     notRunningApps.add(url);
                 }
             }
-            catch (ParseException | IOException e) {
+            catch ( IOException e) {
                 notRunningApps.add(url);
             }
         }
@@ -51,12 +47,13 @@ public class ApplicationStatusService {
 
         for (String url : urlList) {
             try {
-                JSONObject json = urlService.makeHttpRequest(url);
-                if (json.containsValue("UP")) {
+                JsonNode json = urlService.makeHttpRequest(url);
+                String status = json.get("status").toString().toUpperCase(); // Convert to upper case
+                if ("UP".equals(status)) {
                     runningApps.add(url);
                 }
             }
-            catch (ParseException | IOException e) {
+            catch (IOException e) {
                 e.getSuppressed();
             }
         }

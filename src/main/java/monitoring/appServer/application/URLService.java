@@ -1,16 +1,20 @@
 package monitoring.appServer.application;
-import net.minidev.json.JSONObject;
-import net.minidev.json.parser.ParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import net.minidev.json.parser.JSONParser;
 
 @Service
 public class URLService {
@@ -18,7 +22,8 @@ public class URLService {
     @Autowired
     private TomcatWebappScannerService tomcatWebappScannerService;
 
-    JSONParser parser = new JSONParser(JSONParser.MODE_PERMISSIVE);
+    public URLService() {
+    }
 
     public List<String> getURL() {
         /*
@@ -35,13 +40,32 @@ public class URLService {
         return urlList;
     }
 
-    protected JSONObject makeHttpRequest(String url) throws IOException, ParseException {
-        /*
-        makes http request to given url and returns parsed json object
-            Args: url that should be tried
 
-        */
-        URL urlToTry = new URL(url);
-        return (JSONObject) parser.parse(new InputStreamReader(urlToTry.openStream()));
+    protected JsonNode makeHttpRequest(String urlString) throws IOException {
+        URL url = new URL(urlString);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+        try {
+            int responseCode = connection.getResponseCode();
+
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    String responseBody = br.lines().collect(Collectors.joining());
+                    if (responseBody.isEmpty()) {
+                        return null;
+                    }
+                    try {
+                        return objectMapper.readTree(responseBody);
+                    } catch (JsonProcessingException e) {
+                        throw new IOException("Error parsing JSON response", e);
+                    }
+                }
+            } else {
+                throw new IOException("Unexpected response code: " + responseCode);
+            }
+        } finally {
+            connection.disconnect();
+        }
     }
 }

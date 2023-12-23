@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Server Resources Monitoring</title>
+
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+<header>
+    <div class="container">
+        <div id="branding">
+            <h1 style="color: black">Server Resources Monitoring</h1>
+        </div>
+        <nav>
+            <ul>
+                <li class="current"><a href="/">Resources</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div class="container">
+    <!-- Server Information Card -->
+    <div class="container">
+        <div class="card" id="tomcatStatus">
+            <i class="fas fa-cat"></i>
+            <h2>Tomcat Status: </h2>
+            <p id="tomcatStatusText">Loading...</p>
+            <div id="runningApplications">
+                <h3>Running Applications</h3>
+                <ul id="runningAppsList"></ul>
+            </div>
+            <div id="notRunningApplications">
+                <h3>Dead Applications</h3>
+                <ul id="notRunningAppsList"></ul>
+            </div>
+            <a href="/tomcatInfo.html" class="button">Go to detail</a>
+        </div>
+
+        <!-- Additional cards for disk and memory usage -->
+        <div class="card" id="diskUsage">
+            <h2>Disk Usage:</h2>
+            <ul id="diskUsageList"></ul>
+        </div>
+
+        <div class="card" id="freeMemory">
+            <h2>Memory Usage:</h2>
+            <ul id="freeMemoryList"></ul>
+        </div>
+    </div>
+</div>
+
+<script src="/scripts/main.js"></script>
+
+
+</body>
+</html>

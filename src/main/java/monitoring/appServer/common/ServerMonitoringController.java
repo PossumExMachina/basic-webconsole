@@ -3,13 +3,13 @@ package monitoring.appServer.common;
 import monitoring.appServer.tomcat.TomcatService;
 import monitoring.appServer.tomcat.TomcatState;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
-
 
 @RestController
 public class ServerMonitoringController {
@@ -21,54 +21,41 @@ public class ServerMonitoringController {
     private TomcatService tomcatService;
 
     public ServerMonitoringController() {
-
     }
 
-
-    @GetMapping("/")
-    public ModelAndView getResources() throws IOException {
-        ModelAndView modelAndView = new ModelAndView("resourcesTemplate");
+    @GetMapping("/resources")
+    public ResponseEntity<AllServerData> getResources() throws IOException {
         AllServerData resourceData = resourceService.getApplicationStatusResource();
-        modelAndView.addObject("resourceData", resourceData);
-        return modelAndView;
+        return ResponseEntity.ok(resourceData);
     }
 
     @GetMapping("/tomcat")
-    public ModelAndView getTomcat() throws IOException {
-        ModelAndView modelAndView = new ModelAndView("tomcat");
+    public ResponseEntity<AllServerData> getTomcat() throws IOException {
         AllServerData resourceData = resourceService.getApplicationStatusResource();
-        modelAndView.addObject("resourceData", resourceData);
-        return modelAndView;
-    }
-
-
-    @GetMapping("/tomcat/confirmation")
-    public ModelAndView getConfirmation() {
-        return new ModelAndView("confirmation");
-    }
-
-    @GetMapping("/tomcat/actionError")
-    public ModelAndView getErrorPage() {
-        return new ModelAndView("actionError");
+        return ResponseEntity.ok(resourceData);
     }
 
     @PostMapping("/tomcat/start")
-    public ModelAndView startTomcat() {
-        if (tomcatService.startTomcat() == TomcatState.RUNNING) {
-            return new ModelAndView("redirect:/tomcat/confirmation");
+    public ResponseEntity<?> startTomcat() {
+        TomcatState state = tomcatService.startTomcat();
+        if (state == TomcatState.RUNNING) {
+            return ResponseEntity.ok("Tomcat started successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error starting Tomcat.");
         }
-        else return new ModelAndView("redirect:/tomcat/actionError");
     }
 
     @PostMapping("/tomcat/stop")
-    public ModelAndView stopTomcat() {
-        if (tomcatService.stopTomcat() == TomcatState.STOPPED) {
-            return new ModelAndView("redirect:/tomcat/confirmation");
+    public ResponseEntity<?> stopTomcat() {
+        TomcatState state = tomcatService.stopTomcat();
+        if (state == TomcatState.STOPPED) {
+            return ResponseEntity.ok("Tomcat stopped successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error stopping Tomcat.");
         }
-        else return new ModelAndView("redirect:/tomcat/actionError");
     }
 
+
 }
-
-
-

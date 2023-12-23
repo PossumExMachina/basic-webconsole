@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div id="branding">
+      <h1 style="color: black">Server Resources Monitoring</h1>
+    </div>
+    <nav>
+      <ul>
+        <li class="current"><a href="/">Resources</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <!-- Server Information Card -->
+  <div class="container">
+    <div class="card" id="tomcatStatus">
+      <i class="fas fa-cat"></i>
+      <h2>Tomcat Status: </h2>
+      <p id="tomcatStatusText">Loading...</p>
+      <div id="runningApplications">
+        <h3>Running Applications</h3>
+        <ul id="runningAppsList"></ul>
+      </div>
+      <div id="notRunningApplications">
+        <h3>Dead Applications</h3>
+        <ul id="notRunningAppsList"></ul>
+      </div>
+      <a href="/overview.html" class="button">Go back</a>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <i class="fas fa-cat"></i><h2>Control panel: </h2>
+
+  <!-- Control buttons -->
+  <form action="/tomcat/stop" method="post" class="button">
+    <button type="submit" value="Stop Tomcat" >Stop Server</button>
+  </form>
+
+  <form action="/tomcat/start" method="post" class="button">
+    <button type="submit" value="Starca Tomcat" >Start Server</button>
+  </form>
+</div>
+
+  <script src="/scripts/main.js"></script>
+
+</body>
+</html>
