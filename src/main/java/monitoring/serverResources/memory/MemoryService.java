@@ -20,7 +20,7 @@ public class MemoryService {
 
     }
 
-    public List<String> getFreeMemory() throws IOException {
+    public List<String> getFreeMemory() {
         return commandStrategy.getFreeMemory();
     }
 }

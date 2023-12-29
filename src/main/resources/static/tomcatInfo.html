@@ -15,7 +15,7 @@
     </div>
     <nav>
       <ul>
-        <li class="current"><a href="/">Resources</a></li>
+        <li class="current"><a href="overview.html">Resources</a></li>
       </ul>
     </nav>
   </div>
@@ -38,13 +38,40 @@
       </div>
       <a href="/overview.html" class="button">Go back</a>
     </div>
+
+    <div class="card">
+      <i class="fas fa-cat"></i><h2>Control panel: </h2>
+      <form action="/tomcat/stop" method="post" class="button">
+        <button type="submit" value="Stop Tomcat" >Stop Server</button>
+      </form>
+
+      <form action="/tomcat/start" method="post" class="button">
+        <button type="submit" value="Starca Tomcat" >Start Server</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <i class="fas fa-cat"></i><h2>Deployment Panel: </h2>
+
+      <form id="searchForm">
+        <label for="path">Directory Path:</label>
+        <input type="text" id="path" name="path">
+        <button type="submit">Search</button>
+      </form>
+
+      <form action="/tomcat/start" method="post" class="button">
+        <button type="submit" value="Starca Tomcat" >Start Server</button>
+      </form>
+    </div>
+
+
+
+
   </div>
 </div>
 
 <div class="card">
   <i class="fas fa-cat"></i><h2>Control panel: </h2>
-
-  <!-- Control buttons -->
   <form action="/tomcat/stop" method="post" class="button">
     <button type="submit" value="Stop Tomcat" >Stop Server</button>
   </form>
@@ -55,6 +82,25 @@
 </div>
 
   <script src="/scripts/main.js"></script>
+
+<script>
+  document.getElementById('searchForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var path = document.getElementById('path').value;
+    searchFiles(path);
+  });
+
+  function searchFiles(path) {
+    fetch('/api/search?path=' + encodeURIComponent(path))
+            .then(response => response.json())
+            .then(data => {
+              var resultsDiv = document.getElementById('searchResults');
+              resultsDiv.innerHTML = '<ul>' + data.map(file => '<li>' + file + '</li>').join('') + '</ul>';
+            })
+            .catch(error => console.error('Error:', error));
+  }
+
+</script>
 
 </body>
 </html>

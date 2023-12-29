@@ -1,13 +1,14 @@
 package monitoring.commands;
 
 import monitoring.appServer.tomcat.TomcatCommandService;
-import monitoring.appServer.tomcat.TomcatService;
 import monitoring.appServer.tomcat.TomcatState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
+
 @Component
 public class MacOSCommands implements CommandStrategy{
 
@@ -33,15 +34,15 @@ public class MacOSCommands implements CommandStrategy{
                   printf "Total: %d MB\\nUsed: %d MB\\nFree: %d MB\\n", total, used, free
                 }'
                 """;
-        List<String> memoryUsage = null;
+       List<String> memoryUsage; //TODO: remove duplicate code
         try {
             memoryUsage = commandExec.executeCommand(command);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        if (memoryUsage == null) {
+        if (memoryUsage.isEmpty()) {
             try {
-                throw new IOException("Failed to get disk usage: Command execution returned null");
+                throw new IOException("Failed to get memory usage: Command execution returned null");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

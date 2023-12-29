@@ -3,6 +3,7 @@ package monitoring.appServer.common;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.Optional;
 
 public class AllServerData {
 

@@ -1,6 +1,4 @@
 package monitoring.commands;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -8,42 +6,34 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CommandExec {
 
 
-    public CommandExec() {
+    public List<String> executeCommand(String command) throws IOException {
+        ProcessBuilder processBuilder = new ProcessBuilder("bash", "-c", command);
+        Process process = processBuilder.start();
+        return readProcessOutput(process);
     }
 
-    public List<String> executeCommand(String command) throws IOException {List<String> output = new ArrayList<>();
-        ProcessBuilder processBuilder = new ProcessBuilder("bash", "-c", command);
-        Process process;
-        try {
-            process = processBuilder.start();
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
-                int exitCode = process.waitFor();
-                if (exitCode != 0) {
-                    throw new IOException("Command exited with error code: " + exitCode);
-                }
-
-                String s;
-                while((s = reader.readLine()) != null)
-                {
-                    output.add(s + "\n");
-                }
-                return output;
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                throw new IOException("Interrupted while waiting for the command to complete", e);
+    private List<String> readProcessOutput(Process process) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+            List<String> output = new ArrayList<>();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                output.add(line + "\n");
             }
-        } catch (IOException e) {
-            throw new IOException("Error starting the process for command: " + command, e);
+            int exitCode = process.waitFor();
+            if (exitCode != 0) {
+                throw new IOException("Command exited with error code: " + exitCode);
+            }
+            return output;
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new IOException("Interrupted while reading the command output", e);
         }
     }
-
-
-
-
 
 }

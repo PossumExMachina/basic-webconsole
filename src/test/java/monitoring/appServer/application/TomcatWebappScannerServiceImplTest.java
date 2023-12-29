@@ -8,7 +8,7 @@ import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(MockitoExtension.class)
-class TomcatWebappScannerServiceTest {
+class TomcatWebappScannerServiceImplTest {
 
 
     @Test
