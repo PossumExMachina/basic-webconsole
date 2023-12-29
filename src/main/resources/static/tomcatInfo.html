@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Monitoring Console</title>
   <link rel="stylesheet" href="css/styles.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
 </head>
@@ -22,7 +22,7 @@
 </header>
 
 <div class="container">
-  <!-- Server Information Card -->
+  <!-- Tomcat overview -->
   <div class="container">
     <div class="card" id="tomcatStatus">
       <i class="fas fa-cat"></i>
@@ -39,6 +39,7 @@
       <a href="/overview.html" class="button">Go back</a>
     </div>
 
+    <!-- Panel for Tomcat stop/start -->
     <div class="card">
       <i class="fas fa-cat"></i><h2>Control panel: </h2>
       <form action="/tomcat/stop" method="post" class="button">
@@ -46,10 +47,12 @@
       </form>
 
       <form action="/tomcat/start" method="post" class="button">
-        <button type="submit" value="Starca Tomcat" >Start Server</button>
+        <button type="submit" value="Start Tomcat" >Start Server</button>
       </form>
     </div>
 
+
+    <!-- Panel for application deployment -->
     <div class="card">
       <i class="fas fa-cat"></i><h2>Deployment Panel: </h2>
 
@@ -59,27 +62,13 @@
         <button type="submit">Search</button>
       </form>
 
-      <form action="/tomcat/start" method="post" class="button">
-        <button type="submit" value="Starca Tomcat" >Start Server</button>
-      </form>
     </div>
 
 
 
 
   </div>
-</div>
 
-<div class="card">
-  <i class="fas fa-cat"></i><h2>Control panel: </h2>
-  <form action="/tomcat/stop" method="post" class="button">
-    <button type="submit" value="Stop Tomcat" >Stop Server</button>
-  </form>
-
-  <form action="/tomcat/start" method="post" class="button">
-    <button type="submit" value="Starca Tomcat" >Start Server</button>
-  </form>
-</div>
 
   <script src="/scripts/main.js"></script>
 
@@ -101,6 +90,7 @@
   }
 
 </script>
+</div>
 
 </body>
 </html>
