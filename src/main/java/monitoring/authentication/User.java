@@ -5,12 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-
 @Entity
-@Table(name = "user", schema = "console")
+@Table(name = "user_account")
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor
 public class User {
     @Id
@@ -20,5 +19,6 @@ public class User {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    private UserType userType;
+    private Role role;
+
 }

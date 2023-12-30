@@ -1,5 +1,5 @@
 package monitoring.authentication;
 
-public enum UserType {
+public enum Role {
     ADMIN, READ
 }

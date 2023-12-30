@@ -16,13 +16,13 @@ class UserTest {
         user.setUsername("jana");
         user.setPassword("password");
         user.setId(1L);
-        user.setUserType(UserType.ADMIN);
+        user.setUserType(Role.ADMIN);
 
 
         assertAll("jana",
                 () -> assertEquals("jana", user.getUsername()),
                 () -> assertEquals("password", user.getPassword()),
                 () -> assertEquals(1L, user.getId()),
-                () -> assertEquals(UserType.ADMIN, user.getUserType()));
+                () -> assertEquals(Role.ADMIN, user.getUserType()));
     }
 }
