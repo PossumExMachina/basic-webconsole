@@ -1,5 +1,6 @@
 package monitoring.appServer.tomcat;
 
+import monitoring.appServer.common.State;
 import monitoring.commands.CommandExec;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,8 +10,6 @@ import org.springframework.stereotype.Component;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.List;
 
 @Component
 public class TomcatCommandService {
@@ -40,7 +39,6 @@ public class TomcatCommandService {
                     break;
                 }
             }
-
             if (isTomcatFound) {
                 logger.info("Tomcat is running.");
                 return true;
@@ -59,15 +57,14 @@ public class TomcatCommandService {
         }
     }
 
-    public TomcatState changeTomcatState(String[] command) {
+    public State changeTomcatState(String[] command) {
         try {
             Process process = Runtime.getRuntime().exec(command);
-            logger.info("Process started, waiting for it to complete...");
             process.waitFor();
-            logger.info("Process completed.");
+
         } catch (IOException | InterruptedException e) {
             logger.error("Error executing command or waiting for completion", e);
-            return TomcatState.UNKNOWN;
+            return State.UNKNOWN;
         }
 
         boolean isStopCommand = command[2].contains("stop") || command[2].contains("shutdown");
@@ -77,10 +74,10 @@ public class TomcatCommandService {
         for (int i = 0; i < attempts; i++) {
             if (isStopCommand && !isTomcatRunning()) {
                 logger.info("Tomcat has stopped.");
-                return TomcatState.STOPPED;
+                return State.STOPPED;
             } else if (isStartCommand && isTomcatRunning()) {
                 logger.info("Tomcat is running.");
-                return TomcatState.RUNNING;
+                return State.RUNNING;
             }
             else logger.info("Finding it difficult to change tomcat state.");
             try {
@@ -90,9 +87,9 @@ public class TomcatCommandService {
             }
         }
 
-        TomcatState finalState = isStopCommand ? (isTomcatRunning() ? TomcatState.RUNNING : TomcatState.STOPPED)
-                : (isStartCommand ? (isTomcatRunning() ? TomcatState.RUNNING : TomcatState.STOPPED)
-                : TomcatState.UNKNOWN);
+        State finalState = isStopCommand ? (isTomcatRunning() ? State.RUNNING : State.STOPPED)
+                : (isStartCommand ? (isTomcatRunning() ? State.RUNNING : State.STOPPED)
+                : State.UNKNOWN);
         logger.info("Final determined state of Tomcat: {}", finalState);
         return finalState;
     }

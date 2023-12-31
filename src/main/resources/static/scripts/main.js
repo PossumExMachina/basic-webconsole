@@ -19,24 +19,34 @@ function updateUI(data) {
     }
 
     // Update running applications list
-    const runningAppsList = document.getElementById('runningAppsList');
-
-    if (data.runningApplications && data.runningApplications.length > 0) {
-        runningAppsList.innerHTML = data.runningApplications
-            .map(app => `<li style="color: darkgreen">${app}</li>`)
-            .join('');
+    const applicationsList = document.getElementById('runningAppsList');
+    console.log("Applications:", data.applications);
+    if (data.applications && data.applications.length > 0) {
+        applicationsList.innerHTML = data.applications
+            .map(app => {
+                const statusStyle = app.status === 'RUNNING' ? 'style="color: darkgreen;"' : 'style="color: darkred;"';
+                return `<li>Name: ${app.name}, <span ${statusStyle}>Status: ${app.status}</span></span></li>`;
+            }).join('');
     } else {
-        runningAppsList.innerHTML = '<li style="color: darkred">No running applications</li>';
+        applicationsList.innerHTML = '<li style="color: darkred">No running applications</li>';
     }
 
-    // Update not running applications list
-    const notRunningAppsList = document.getElementById('notRunningAppsList');
-    if (data.notRunningApplications && data.notRunningApplications.length > 0) {
-        notRunningAppsList.innerHTML = data.notRunningApplications
-            .map(app => `<li style="color: darkred">${app}</li>`)
+
+    // Update docker container info
+    const dockerContainerList = document.getElementById('dockerContainerList');
+    console.log("dockerContainers:", data.dockerContainers);
+    if (data.dockerContainers && data.dockerContainers.length > 0) {
+        console.log("Processing docker containers");
+        dockerContainerList.innerHTML = data.dockerContainers
+            .map(container => {
+                // Check if the status is 'EXITED' and apply a different style
+                const statusStyle = container.status === 'EXITED' ? 'style="color: darkred;"' : 'style="color: green;"';
+                return `<li>ID: ${container.containerID}, Image: ${container.image}, Created: ${container.created}, <span ${statusStyle}>Status: ${container.status}</span>, Name: ${container.names}</li>`;
+            })
             .join('');
     } else {
-        notRunningAppsList.innerHTML = '<li style="color: darkgreen">All application sare running</li>';
+        console.log("No docker containers available");
+        dockerContainerList.innerHTML = '<li>No docker data available</li>';
     }
 
     // Update disk usage

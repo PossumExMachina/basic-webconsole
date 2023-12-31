@@ -1,14 +1,12 @@
 package monitoring.commands;
 
 import monitoring.appServer.tomcat.TomcatCommandService;
-import monitoring.appServer.tomcat.TomcatState;
+import monitoring.appServer.common.State;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class LinuxCommands implements CommandStrategy {
@@ -39,14 +37,14 @@ public class LinuxCommands implements CommandStrategy {
     }
 
     @Override
-    public TomcatState stopServer(){
+    public State stopServer(){
         String[] command = {"bash", "-c", "systemctl stop tomcat"};
         return tomcatCommandService.changeTomcatState(command);
 
     }
 
     @Override
-    public TomcatState startServer() {
+    public State startServer() {
         String[] command = {"bash", "-c", "systemctl start tomcat"};
         return tomcatCommandService.changeTomcatState(command);
     }

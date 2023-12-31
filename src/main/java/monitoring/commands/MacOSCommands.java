@@ -1,13 +1,12 @@
 package monitoring.commands;
 
 import monitoring.appServer.tomcat.TomcatCommandService;
-import monitoring.appServer.tomcat.TomcatState;
+import monitoring.appServer.common.State;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class MacOSCommands implements CommandStrategy{
@@ -51,14 +50,14 @@ public class MacOSCommands implements CommandStrategy{
     }
 
     @Override
-    public TomcatState stopServer(){
+    public State stopServer(){
         String[] command = {"bash", "-c", "sudo /opt/tomcat/apache-tomcat-10.1.17/bin/shutdown.sh"};
         return tomcatCommandService.changeTomcatState(command);
 
     }
 
     @Override
-    public TomcatState startServer() {
+    public State startServer() {
         String[] command = {"bash", "-c", "sudo /opt/tomcat/apache-tomcat-10.1.17/bin/startup.sh"};
         return tomcatCommandService.changeTomcatState(command);
     }

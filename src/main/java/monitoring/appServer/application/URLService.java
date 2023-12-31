@@ -24,19 +24,12 @@ public class URLService {
     public URLService() {
     }
 
-    public List<String> getURL() {
+    public String createURL(String applName) {
         /*
-        iterates over application names and creates standard spring boot health check url for each app name
-        returns list of created url
+        Creates default healtcheck URL for SpringBoot application
         */
-        List<String> urlList = new ArrayList<>();
-        tomcatWebappScannerService.scanForWebapps().ifPresent(appNames -> {
-            for (String name : appNames) {
-                String url = "http://localhost:8080/" + name + "/actuator/health";
-                urlList.add(url);
-            }
-        });
-        return urlList;
+        String url = "http://localhost:8080/" + applName + "/actuator/health";
+        return url;
     }
 
 

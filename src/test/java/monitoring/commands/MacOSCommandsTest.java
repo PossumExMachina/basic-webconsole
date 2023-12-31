@@ -1,7 +1,7 @@
 package monitoring.commands;
 
 import monitoring.appServer.tomcat.TomcatCommandService;
-import monitoring.appServer.tomcat.TomcatState;
+import monitoring.appServer.common.State;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -67,27 +67,27 @@ class MacOSCommandsTest {
     @Test
     public void mockStartServer(){
         String[] command = {"bash", "-c", "sudo /opt/tomcat/apache-tomcat-10.1.17/bin/startup.sh"};
-        TomcatState expectedState = TomcatState.RUNNING;
+        State expectedState = State.RUNNING;
         when(mocktomcatCommandService.changeTomcatState(command)).thenReturn(expectedState);
-        TomcatState actualState = macOSCommands.startServer();
+        State actualState = macOSCommands.startServer();
         assertEquals(expectedState, actualState);
     }
 
     @Test
     public void mockStartServer_whenCommandIsWrong(){
         String[] command = {"bash", "-c", "sudo /opt/tomcat/apache-tomcat-10.1.17/bin/stop.sh"};
-        TomcatState expectedState = TomcatState.RUNNING;
+        State expectedState = State.RUNNING;
         when(mocktomcatCommandService.changeTomcatState(command)).thenReturn(expectedState);
-        TomcatState actualState = macOSCommands.startServer();
+        State actualState = macOSCommands.startServer();
         assertNotEquals(expectedState, actualState);
     }
 
     @Test
     public void mockStopServer(){
         String[] command = {"bash", "-c", "sudo /opt/tomcat/apache-tomcat-10.1.17/bin/shutdown.sh"};
-        TomcatState expectedState = TomcatState.STOPPED;
+        State expectedState = State.STOPPED;
         when(mocktomcatCommandService.changeTomcatState(command)).thenReturn(expectedState);
-        TomcatState actualState = macOSCommands.stopServer();
+        State actualState = macOSCommands.stopServer();
         assertEquals(expectedState, actualState);
     }
 

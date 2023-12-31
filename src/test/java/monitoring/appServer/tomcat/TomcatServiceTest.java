@@ -1,7 +1,7 @@
 package monitoring.appServer.tomcat;
 
+import monitoring.appServer.common.State;
 import monitoring.commands.CommandStrategy;
-import monitoring.serverResources.memory.MemoryService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -31,22 +31,22 @@ class TomcatServiceTest {
     @Test
     public void testStopTomcat_whenEverythingOK(){
 
-        TomcatState expectedState = TomcatState.STOPPED;
+        State expectedState = State.STOPPED;
 
        when(tomcatService.stopTomcat()).thenReturn(expectedState);
 
-        TomcatState actualState = tomcatService.stopTomcat();
+        State actualState = tomcatService.stopTomcat();
         assertEquals(expectedState, actualState);
     }
 
     @Test
     public void testStartTomcat_whenEverythingOK(){
 
-        TomcatState expectedState = TomcatState.RUNNING;
+        State expectedState = State.RUNNING;
 
         when(tomcatService.startTomcat()).thenReturn(expectedState);
 
-        TomcatState actualState = tomcatService.startTomcat();
+        State actualState = tomcatService.startTomcat();
         assertEquals(expectedState, actualState);
     }
 

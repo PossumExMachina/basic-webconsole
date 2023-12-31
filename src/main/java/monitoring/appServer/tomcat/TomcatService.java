@@ -1,5 +1,6 @@
 package monitoring.appServer.tomcat;
 
+import monitoring.appServer.common.State;
 import monitoring.commands.CommandStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,11 +12,11 @@ public class TomcatService {
     private CommandStrategy commandStrategy;
 
 
-    public TomcatState stopTomcat() {
+    public State stopTomcat() {
         return commandStrategy.stopServer();
     }
 
-    public TomcatState startTomcat() {
+    public State startTomcat() {
         return commandStrategy.startServer();
     }
 

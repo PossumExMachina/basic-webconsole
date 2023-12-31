@@ -11,7 +11,7 @@
 <header>
   <div class="container">
     <div id="branding">
-      <h1 style="color: black">Server Resources Monitoring</h1>
+      <h1 style="color: #5f5f61;">Server Resources Monitoring</h1>
     </div>
     <nav>
       <ul>
@@ -32,11 +32,7 @@
         <h3>Running Applications</h3>
         <ul id="runningAppsList"></ul>
       </div>
-      <div id="notRunningApplications">
-        <h3>Dead Applications</h3>
-        <ul id="notRunningAppsList"></ul>
-      </div>
-      <a href="/overview.html" class="button">Go back</a>
+      <a href="/overview.html" class="clickable">Go back</a>
     </div>
 
     <!-- Panel for Tomcat stop/start -->
@@ -50,21 +46,6 @@
         <button type="submit" value="Start Tomcat" >Start Server</button>
       </form>
     </div>
-
-
-    <!-- Panel for application deployment -->
-    <div class="card">
-      <i class="fas fa-cat"></i><h2>Deployment Panel: </h2>
-
-      <form id="searchForm">
-        <label for="path">Directory Path:</label>
-        <input type="text" id="path" name="path">
-        <button type="submit">Search</button>
-      </form>
-
-    </div>
-
-
 
 
   </div>
