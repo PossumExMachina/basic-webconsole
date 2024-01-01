@@ -1,29 +1,51 @@
 package monitoring.appServer.tomcat;
 
+import lombok.SneakyThrows;
 import monitoring.appServer.common.State;
-import monitoring.commands.CommandStrategy;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 
 @Service
 public class TomcatService {
 
-    @Autowired
-    private CommandStrategy commandStrategy;
+    private static final Logger logger = LoggerFactory.getLogger(TomcatService.class);
 
+    @SneakyThrows
+    public State getTomcatState() {
+        String[] command = {"bash", "-c", "ps aux | grep [c]atalina.startup.Bootstrap"};
+        Process process = Runtime.getRuntime().exec(command);
+        logger.info("Creating process to check Tomcat state");
 
-    public State stopTomcat() {
-        return commandStrategy.stopServer();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+            process.waitFor();
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.contains("catalina")) {
+                    logger.info("Tomcat is running");
+                    return State.RUNNING;
+                }
+            }
+        } catch (IOException e) {
+            logger.error("Could not check Tomcat state", e);
+            return State.UNKNOWN;
+        } catch (InterruptedException e) {
+            logger.error("Interrupted while waiting for the process", e);
+            Thread.currentThread().interrupt();
+            return State.UNKNOWN;
+        }
+
+        return State.STOPPED;
     }
-
-    public State startTomcat() {
-        return commandStrategy.startServer();
-    }
-
-
-
 
 }
+
 
 
 

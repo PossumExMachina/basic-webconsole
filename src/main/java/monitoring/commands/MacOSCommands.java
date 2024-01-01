@@ -1,7 +1,6 @@
 package monitoring.commands;
 
-import monitoring.appServer.tomcat.TomcatCommandService;
-import monitoring.appServer.common.State;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,9 +12,6 @@ public class MacOSCommands implements CommandStrategy{
 
     @Autowired
     private CommandExec commandExec;
-
-    @Autowired
-    private TomcatCommandService tomcatCommandService;
 
     @Override
     public List<String> getFreeMemory() {
@@ -49,18 +45,6 @@ public class MacOSCommands implements CommandStrategy{
         return memoryUsage;
     }
 
-    @Override
-    public State stopServer(){
-        String[] command = {"bash", "-c", "sudo /opt/tomcat/apache-tomcat-10.1.17/bin/shutdown.sh"};
-        return tomcatCommandService.changeTomcatState(command);
-
-    }
-
-    @Override
-    public State startServer() {
-        String[] command = {"bash", "-c", "sudo /opt/tomcat/apache-tomcat-10.1.17/bin/startup.sh"};
-        return tomcatCommandService.changeTomcatState(command);
-    }
 
 
 }

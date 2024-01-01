@@ -2,7 +2,7 @@ package monitoring.appServer.common;
 
 import monitoring.appServer.application.Application;
 import monitoring.appServer.application.ApplicationService;
-import monitoring.appServer.tomcat.TomcatCommandService;
+import monitoring.appServer.tomcat.TomcatService;
 import monitoring.docker.DockerContainer;
 import monitoring.docker.DockerContainerService;
 import monitoring.serverResources.disk.DiskService;
@@ -18,7 +18,7 @@ public class ServerService {
 
 
     @Autowired
-    private TomcatCommandService tomcatCommandService;
+    private TomcatService tomcatService;
 
     @Autowired
     private MemoryService memoryService;
@@ -33,12 +33,12 @@ public class ServerService {
 
 
     public AllServerDataDTO getApplicationStatusResource() throws IOException {
-        boolean isTomcatRunning = tomcatCommandService.isTomcatRunning();
+        State tomcatState = tomcatService.getTomcatState();
         List<Application> applications = applicationService.getApplications();
         List<String> diskUsage = diskService.getDiskUsage();
         List<String> freeMemory = memoryService.getFreeMemory();
         List<DockerContainer> dockerContainers = dockerContainerService.getDockerContainers();
-        return new AllServerDataDTO(applications, isTomcatRunning, diskUsage, freeMemory, dockerContainers);
+        return new AllServerDataDTO(applications, tomcatState, diskUsage, freeMemory, dockerContainers);
     }
 
 

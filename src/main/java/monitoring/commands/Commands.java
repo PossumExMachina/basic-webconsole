@@ -12,12 +12,13 @@ public final class Commands {
     public static final String listContainers = "docker ps -a";
 
     public static final String startTomcat = "sudo systemctl start tomcat";
+    public static final String stopTomcat = "sudo systemctl stop tomcat";
     public static final String getDiskUsage = "df -h";
 
 
 
 
-    public Commands(){
+    private Commands(){
 
     }
 

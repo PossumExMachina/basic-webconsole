@@ -2,7 +2,7 @@ package monitoring.serverResources.memory;
 
 import monitoring.commands.CommandExec;
 import monitoring.commands.CommandStrategy;
-import monitoring.commands.MacOSCommands;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

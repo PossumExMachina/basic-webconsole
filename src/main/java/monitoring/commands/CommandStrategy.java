@@ -8,6 +8,5 @@ import java.util.List;
 @Component
 public interface CommandStrategy {
     List<String> getFreeMemory();
-    State stopServer();
-    State startServer();
+
 }

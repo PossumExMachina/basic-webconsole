@@ -12,7 +12,7 @@ function fetchData() {
 function updateUI(data) {
     // Update Tomcat status
     const tomcatStatusText = document.getElementById('tomcatStatusText');
-    if (data.tomcatRunning) {
+    if (data.tomcatState.toString() == "RUNNING") {
         tomcatStatusText.textContent = '<p style="color: darkgreen">Tomcat is running.</p>';
     } else {
         tomcatStatusText.innerHTML = '<p style="color: darkred">Tomcat is not running.</p>';
@@ -25,7 +25,7 @@ function updateUI(data) {
         applicationsList.innerHTML = data.applications
             .map(app => {
                 const statusStyle = app.status === 'RUNNING' ? 'style="color: darkgreen;"' : 'style="color: darkred;"';
-                return `<li>Name: ${app.name}, <span ${statusStyle}>Status: ${app.status}</span></span></li>`;
+                return `<li>${app.name}, <span ${statusStyle}>Status: ${app.status}</span></span></li>`;
             }).join('');
     } else {
         applicationsList.innerHTML = '<li style="color: darkred">No running applications</li>';

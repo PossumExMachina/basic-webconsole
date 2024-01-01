@@ -43,9 +43,7 @@ public class DockerContainerService {
     private DockerContainer parseLine(String line) {
         String[] parts = line.split("\\s+");
         StringBuilder createdBuilder = new StringBuilder();
-
         String containerID = parts[0];
-        logger.info(parts[1]);
         String image = parts[1];
         createdBuilder.append(parts[3]).append(" ").append(parts[4]).append(" ").append(parts[5]);
         String created = createdBuilder.toString();

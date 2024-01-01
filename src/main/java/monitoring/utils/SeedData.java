@@ -1,6 +1,6 @@
 package monitoring.utils;
 
-import monitoring.appServer.tomcat.TomcatCommandService;
+
 import monitoring.authentication.UserService;
 import monitoring.authentication.User;
 import monitoring.authentication.Role;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SeedData implements CommandLineRunner {
-    private static final Logger logger = LoggerFactory.getLogger(TomcatCommandService.class);
+    private static final Logger logger = LoggerFactory.getLogger(SeedData.class);
 
     @Autowired
     private UserService userService;

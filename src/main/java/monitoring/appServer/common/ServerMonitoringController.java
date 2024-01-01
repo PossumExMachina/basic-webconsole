@@ -1,6 +1,8 @@
 package monitoring.appServer.common;
 
+import monitoring.appServer.tomcat.TomcatControlService;
 import monitoring.appServer.tomcat.TomcatService;
+import monitoring.commands.control.ControlStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +19,7 @@ public class ServerMonitoringController {
     private ServerService serverService;
 
     @Autowired
-    private TomcatService tomcatService;
+    private TomcatControlService tomcatControlService;
 
 
 
@@ -38,7 +40,7 @@ public class ServerMonitoringController {
 
     @PostMapping("/tomcat/start")
     public ResponseEntity<?> startTomcat() {
-        State state = tomcatService.startTomcat();
+        State state = tomcatControlService.startResource();
         if (state == State.RUNNING) {
             return ResponseEntity.ok("Tomcat started successfully.");
         } else {
@@ -49,7 +51,7 @@ public class ServerMonitoringController {
 
     @PostMapping("/tomcat/stop")
     public ResponseEntity<?> stopTomcat() {
-        State state = tomcatService.stopTomcat();
+        State state = tomcatControlService.stopResource();
         if (state == State.STOPPED) {
             return ResponseEntity.ok("Tomcat stopped successfully.");
         } else {
@@ -57,9 +59,8 @@ public class ServerMonitoringController {
                     .body("Error stopping Tomcat.");
         }
     }
-
-
-  
-
-
 }
+
+
+
+

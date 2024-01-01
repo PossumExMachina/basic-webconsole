@@ -1,7 +1,5 @@
 package monitoring.utils;
 
-import monitoring.appServer.tomcat.TomcatCommandService;
-import monitoring.commands.Commands;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -13,7 +11,7 @@ import java.io.InputStreamReader;
 @Service
 public class DetectResource {
 
-    private static final Logger logger = LoggerFactory.getLogger(TomcatCommandService.class);
+    private static final Logger logger = LoggerFactory.getLogger(DetectResource.class);
 
 
 
