@@ -12,11 +12,12 @@ function fetchData() {
 function updateUI(data) {
     // Update Tomcat status
     const tomcatStatusText = document.getElementById('tomcatStatusText');
-    if (data.tomcatState.toString() == "RUNNING") {
-        tomcatStatusText.textContent = '<p style="color: darkgreen">Tomcat is running.</p>';
+    if (data.tomcatState.toString() === "RUNNING") {
+        tomcatStatusText.innerHTML = '<p style="color: darkgreen">Tomcat is running.</p>';
     } else {
         tomcatStatusText.innerHTML = '<p style="color: darkred">Tomcat is not running.</p>';
     }
+
 
     // Update running applications list
     const applicationsList = document.getElementById('runningAppsList');
@@ -33,34 +34,85 @@ function updateUI(data) {
 
 
     // Update docker container info
+    // Update docker container info
     const dockerContainerList = document.getElementById('dockerContainerList');
     console.log("dockerContainers:", data.dockerContainers);
+
     if (data.dockerContainers && data.dockerContainers.length > 0) {
         console.log("Processing docker containers");
-        dockerContainerList.innerHTML = data.dockerContainers
+
+        let tableHTML = `<table>
+                    <tr>
+                        <th>Container ID</th>
+                        <th>Image</th>
+                        <th>Created</th>
+                        <th>Status</th>
+                        <th>Name</th>
+                    </tr>`;
+
+        tableHTML += data.dockerContainers
             .map(container => {
-                // Check if the status is 'EXITED' and apply a different style
                 const statusStyle = container.status === 'EXITED' ? 'style="color: darkred;"' : 'style="color: green;"';
-                return `<li>ID: ${container.containerID}, Image: ${container.image}, Created: ${container.created}, <span ${statusStyle}>Status: ${container.status}</span>, Name: ${container.names}</li>`;
+                return `<tr>
+                <td>${container.containerID}</td>
+                <td>${container.image}</td>
+                <td>${container.created}</td>
+                <td ${statusStyle}>${container.status}</td>
+                <td>${container.names}</td>
+            </tr>`;
             })
             .join('');
+
+        tableHTML += '</table>';
+        dockerContainerList.innerHTML = tableHTML;
     } else {
         console.log("No docker containers available");
-        dockerContainerList.innerHTML = '<li>No docker data available</li>';
+        dockerContainerList.innerHTML = '<p>No docker data available</p>';
     }
+
+
+
+
 
     // Update disk usage
     const diskUsageList = document.getElementById('diskUsageList');
     console.log("diskUsage:", data.diskUsage);
+
     if (data.diskUsage && data.diskUsage.length > 0) {
-        console.log("Processing freeMemory");
-        diskUsageList.innerHTML = data.diskUsage
-            .map(diskUsage => `<li>${diskUsage}</li>`)
-            .join('');
+        console.log("Processing disk usage");
+        let tableHTML = `<table>
+                        <tr>
+                            <th>File System</th>
+                            <th>Size</th>
+                            <th>Used</th>
+                            <th>Available</th>
+                            <th>Capacity</th>
+                            <th>iUsed</th>
+                            <th>iFree</th>
+                            <th>Mounted On</th>
+                        </tr>`;
+
+        tableHTML += data.diskUsage.map(usage => {
+            const capacityStyle = usage.capacity > 95 ? 'style="color: darkred;"' : '';
+            return `<tr>
+                    <td>${usage.fileSystem}</td>
+                    <td>${usage.fileSystemSize}</td>
+                    <td>${usage.used}</td>
+                    <td>${usage.available}</td>
+                    <td ${capacityStyle}>${usage.capacity}%</td>
+                    <td>${usage.iused}</td>
+                    <td>${usage.ifree}</td>
+                    <td>${usage.mountedOn}</td>
+                </tr>`;
+        }).join('');
+
+        tableHTML += '</table>';
+        diskUsageList.innerHTML = tableHTML;
     } else {
-        console.log("free mem not available");
-        diskUsageList.innerHTML = '<li>No disk usage data available</li>';
+        console.log("disk usage not available");
+        diskUsageList.innerHTML = '<p>No disk usage data available</p>';
     }
+
 
     // Update memory usage
     const freeMemoryList = document.getElementById('freeMemoryList');

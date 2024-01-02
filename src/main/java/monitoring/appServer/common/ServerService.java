@@ -6,6 +6,7 @@ import monitoring.appServer.tomcat.TomcatService;
 import monitoring.docker.DockerContainer;
 import monitoring.docker.DockerContainerService;
 import monitoring.serverResources.disk.DiskService;
+import monitoring.serverResources.disk.DiskUsage;
 import monitoring.serverResources.memory.MemoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,7 @@ public class ServerService {
     public AllServerDataDTO getApplicationStatusResource() throws IOException {
         State tomcatState = tomcatService.getTomcatState();
         List<Application> applications = applicationService.getApplications();
-        List<String> diskUsage = diskService.getDiskUsage();
+        List<DiskUsage> diskUsage = diskService.getDiskUsage();
         List<String> freeMemory = memoryService.getFreeMemory();
         List<DockerContainer> dockerContainers = dockerContainerService.getDockerContainers();
         return new AllServerDataDTO(applications, tomcatState, diskUsage, freeMemory, dockerContainers);

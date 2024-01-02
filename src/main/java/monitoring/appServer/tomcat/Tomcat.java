@@ -1,6 +1,5 @@
 package monitoring.appServer.tomcat;
 
-import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,5 +13,5 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 @Component
 public class Tomcat {
-    State state;
+   private State state;
 }

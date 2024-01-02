@@ -1,8 +1,6 @@
 package monitoring.appServer.common;
 
 import monitoring.appServer.tomcat.TomcatControlService;
-import monitoring.appServer.tomcat.TomcatService;
-import monitoring.commands.control.ControlStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

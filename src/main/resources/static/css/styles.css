@@ -1,74 +1,104 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: whitesmoke;
+    background-color: #f4f4f4;
+    color: #333;
 }
+
 .container {
-    width: 80%;
-    margin: auto;
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
     overflow: hidden;
 }
+
 header {
-    background: whitesmoke;
-    color: #181a1c;
-    padding-top: 30px;
-    min-height: 70px;
-    border-bottom: 3px solid #cfbf13;
+    background: #fff;
+    color: #333;
+    padding: 10px 0;
+    border-bottom: 2px solid #eaeaea;
 }
+
 header a {
-    color: #ABB2BF;
+    color: #333;
     text-decoration: none;
-    text-transform: uppercase;
-    font-size: 16px;
+    font-size: 14px;
 }
+
 header ul {
     padding: 0;
     margin: 0;
     list-style: none;
-    overflow: hidden;
 }
+
 header li {
-    float: left;
     display: inline;
-    padding: 0 20px 0 20px;
+    margin: 0 10px;
 }
+
 header #branding {
     float: left;
 }
+
 header #branding h1 {
     margin: 0;
-}
-header nav {
-    float: right;
-    margin-top: 10px;
-}
-header .highlight, .h2, header .current a, h1 {
-    color: #5f5f61;
-    font-weight: bold;
-}
-header a:hover {
-    color: hotpink;
-    font-weight: bold;
-}
-.card {
-    background: whitesmoke;
-    padding: 20px;
-    margin-top: 15px;
-    border-radius: 8px;
-    border: 1px solid black;
-    margin-bottom: 20px; /* Added bottom margin for separation */
-}
-.card h2, h3 {
-    margin-top: 0;
-    color: #5f5f61;
-}
-#tomcatStatus a:hover {
-    color: deeppink;
-}
-#tomcatStatus a {
-    color: #5f5f61; /* Sets the color */
-    text-decoration: none !important; /* Removes the underline and ensures it takes precedence */
+    font-size: 24px;
 }
 
-/* Styling for hover effect on the .hdr class */
+header nav {
+    float: right;
+    margin-top: 5px;
+}
+
+header a:hover {
+    color: #007bff;
+}
+
+.card {
+    background: #fff;
+    padding: 15px;
+    margin-top: 15px;
+    border: 1px solid #eaeaea;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.card h2 {
+    margin-top: 0;
+    color: #333;
+    font-size: 20px;
+}
+
+/* General table styles */
+.table-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-container th, .table-container td {
+    border: 1px solid #eaeaea;
+    padding: 10px;
+    text-align: left;
+}
+
+.table-container th {
+    background-color: #f8f8f8;
+    color: #333;
+}
+
+.table-container tr:nth-child(even) {
+    background-color: #f8f8f8;
+}
+
+.table-container tr:hover {
+    background-color: #f1f1f1;
+}
+
+.capacity-high {
+    color: #dc3545; /* Bootstrap's danger color */
+}
+
+.capacity-normal {
+    color: #28a745; /* Bootstrap's success color */
+}

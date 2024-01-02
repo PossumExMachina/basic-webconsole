@@ -1,9 +1,7 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Monitoring Console</title>
-
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
 </head>
@@ -11,50 +9,43 @@
 <header>
     <div class="container">
         <div id="branding">
-            <h1 style="color: #5f5f61;">Server Resources Monitoring</h1>
+            <h1>Server Resources Monitoring</h1>
         </div>
         <nav>
             <ul>
-                <li class="current" style="color: #5f5f61"><a href="overview.html">Resources</a></li>
+                <li class="current"><a href="overview.html">Resources</a></li>
             </ul>
         </nav>
     </div>
 </header>
 
-<div class="container">
-    <!-- Server Information Card -->
-    <div class="container">
-        <div class="card" id="clickable">
-            <i class="fas fa-cat"></i>
-            <a href="/tomcatInfo.html"><h2>Tomcat Status:</h2></a>
-            <p id="tomcatStatusText">Loading...</p>
-            <div id="runningApplications">
-                <h3 >Deployed Applications</h3>
-                <ul id="runningAppsList"></ul>
-            </div>
+<main class="container">
+    <section class="card" id="clickable">
+        <i class="fas fa-cat"></i>
+        <a href="/tomcatInfo.html"><h2>Tomcat Status:</h2></a>
+        <p id="tomcatStatusText">Loading...</p>
+        <div id="runningApplications">
+            <h3>Deployed Applications</h3>
+            <ul id="runningAppsList"></ul>
         </div>
+    </section>
 
-        <div class="card" id="dockerContainers">
-            <i class="fa fa-whale"></i>
-            <h2>Docker:</h2>
-            <ul id="dockerContainerList"></ul>
-        </div>
+    <section class="card table-container" id="dockerContainers">
+        <h2>Docker:</h2>
+        <div id="dockerContainerList"></div>
+    </section>
 
-        <!-- Additional cards for disk and memory usage -->
-        <div class="card" id="diskUsage">
-            <h2 >Disk Usage:</h2>
-            <ul id="diskUsageList"></ul>
-        </div>
+    <section class="card table-container" id="diskUsage">
+        <h2>Disk Usage:</h2>
+        <div id="diskUsageList"></div>
+    </section>
 
-        <div class="card" id="freeMemory">
-            <h2 >Memory Usage:</h2>
-            <ul id="freeMemoryList"></ul>
-        </div>
-    </div>
-</div>
+    <section class="card" id="freeMemory">
+        <h2>Memory Usage:</h2>
+        <ul id="freeMemoryList"></ul>
+    </section>
+</main>
 
 <script src="/scripts/main.js"></script>
-
-
 </body>
 </html>
