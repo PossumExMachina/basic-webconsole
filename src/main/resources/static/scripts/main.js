@@ -25,8 +25,8 @@ function updateUI(data) {
     if (data.applications && data.applications.length > 0) {
         applicationsList.innerHTML = data.applications
             .map(app => {
-                const statusStyle = app.status === 'RUNNING' ? 'style="color: darkgreen;"' : 'style="color: darkred;"';
-                return `<li>${app.name}, <span ${statusStyle}>Status: ${app.status}</span></span></li>`;
+                const statusStyle = app.state === 'RUNNING' ? 'style="color: darkgreen;"' : 'style="color: darkred;"';
+                return `<li>${app.name}, <span ${statusStyle}>Status: ${app.state}</span></span></li>`;
             }).join('');
     } else {
         applicationsList.innerHTML = '<li style="color: darkred">No running applications</li>';
@@ -48,17 +48,23 @@ function updateUI(data) {
                         <th>Created</th>
                         <th>Status</th>
                         <th>Name</th>
+                        <th>Action</th>
                     </tr>`;
 
         tableHTML += data.dockerContainers
             .map(container => {
-                const statusStyle = container.status === 'EXITED' ? 'style="color: darkred;"' : 'style="color: green;"';
+                const statusStyle = container.state === 'EXITED' ? 'style="color: darkred;"' : 'style="color: green;"';
                 return `<tr>
                 <td>${container.containerID}</td>
                 <td>${container.image}</td>
                 <td>${container.created}</td>
-                <td ${statusStyle}>${container.status}</td>
-                <td>${container.names}</td>
+                <td ${statusStyle}>${container.state}</td>
+                <td>${container.name}</td>
+                <td>
+                <button onclick="startContainer('${container.containerID}')">Start</button>
+                <button onclick="stopContainer('${container.containerID}')">Stop</button>
+                <button onclick="removeContainer('${container.containerID}')">Remove</button>
+                </td>
             </tr>`;
             })
             .join('');
@@ -118,17 +124,119 @@ function updateUI(data) {
     const freeMemoryList = document.getElementById('freeMemoryList');
     if (data.freeMemory && data.freeMemory.length > 0) {
         console.log("Processing freeMemory");
-        freeMemoryList.innerHTML = data.freeMemory
-            .map(memory => `<li>${memory}</li>`)
-            .join('');
+        let tableHTML = `<table>
+                        <tr>
+                            <th>Total</th>
+                            <th>Used</th>
+                            <th>Free</th>
+                        </tr>`;
+
+        tableHTML += data.freeMemory.map(memory => {
+            return `<tr>
+                    <td>${memory.total} MB</td>
+                    <td>${memory.used} MB</td>
+                    <td>${memory.free} MB</td>
+                </tr>`;
+        }).join('');
+
+        tableHTML += '</table>';
+        freeMemoryList.innerHTML = tableHTML;
     } else {
-        console.log("free mem not available");
-        freeMemoryList.innerHTML = '<li>No memory data available</li>';
+        console.log("memory usage not available");
+        freeMemoryList.innerHTML = '<p>No memory usage data available</p>';
     }
 
-
-
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.control-button').forEach(function(button) {
+        button.addEventListener('click', function() {
+            const resourceType = this.getAttribute('data-type');
+            const action = this.getAttribute('data-action');
+
+            fetch(`/${resourceType}/${action}/`, { method: 'POST' })
+                .then(response => {
+                    if (response.ok) {
+                        return response.text();
+                    } else {
+                        throw new Error(`Failed to ${action} ${resourceType}`);
+                    }
+                })
+                .then(data => {
+                    alert(data); // Display success message
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert(error.message); // Display error message
+                });
+        });
+    });
+
+
+    function startContainer(containerID) {
+        sendContainerCommand(containerID, 'start');
+    }
+
+    function stopContainer(containerID) {
+        sendContainerCommand(containerID, 'stop');
+    }
+
+    function removeContainer(containerID) {
+        sendContainerCommand(containerID, 'remove');
+    }
+
+    function sendContainerCommand(containerID, action) {
+        fetch(`/${containerID}/${action}/`, { method: 'POST' })
+            .then(response => {
+                if (response.ok) {
+                    return response.text();
+                } else {
+                    throw new Error(`Failed to ${action} container ${containerID}`);
+                }
+            })
+            .then(data => {
+                alert(data); // Display success message
+                fetchData(); // Refresh data after action
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert(error.message); // Display error message
+            });
+    }
+
+});
+
+function startContainer(containerID) {
+    sendContainerCommand(containerID, 'start');
+}
+
+function stopContainer(containerID) {
+    sendContainerCommand(containerID, 'stop');
+}
+
+function removeContainer(containerID) {
+    sendContainerCommand(containerID, 'remove');
+}
+
+function sendContainerCommand(containerID, action) {
+    fetch(`/${containerID}/${action}/`, { method: 'POST' })
+        .then(response => {
+            if (response.ok) {
+                return response.text();
+            } else {
+                throw new Error(`Failed to ${action} container ${containerID}`);
+            }
+        })
+        .then(data => {
+            alert(data); // Display success message
+            fetchData(); // Refresh data after action
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert(error.message); // Display error message
+        });
+}
+
 
 
 // Call fetchData when the page loads

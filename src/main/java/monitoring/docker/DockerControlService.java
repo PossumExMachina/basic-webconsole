@@ -11,14 +11,13 @@ import java.io.IOException;
 @Service
 public class DockerControlService implements ControlStrategy {
 
-    DockerContainer dockerContainer;
+    private DockerContainer dockerContainer;
 
     private static final Logger logger = LoggerFactory.getLogger(DockerControlService.class);
 
     @SneakyThrows
-    @Override
     public State stopResource() {
-        String[] command = {"docker stop ", dockerContainer.getNames()};
+        String[] command = {"docker stop ", dockerContainer.getName()};
         try {
                 Process process = Runtime.getRuntime().exec(command);
                 process.waitFor();
@@ -31,20 +30,20 @@ public class DockerControlService implements ControlStrategy {
 
         int attempts = 10;
         for (int i = 0; i < attempts; i++) {
-            if (dockerContainer.getStatus() == State.STOPPED) {
+            if (dockerContainer.getState() == State.STOPPED) {
                 return State.STOPPED;
             }
             Thread.sleep(1000);
         }
 
-        return  dockerContainer.getStatus();
+        return  dockerContainer.getState();
     }
 
 
     @SneakyThrows
-    @Override
+ //   @Override
     public State startResource() {
-        String[] command = {"docker start ", dockerContainer.getNames()};
+        String[] command = {"docker start ", dockerContainer.getName()};
         try {
             Process process = Runtime.getRuntime().exec(command);
             process.waitFor();
@@ -57,12 +56,12 @@ public class DockerControlService implements ControlStrategy {
 
         int attempts = 10;
         for (int i = 0; i < attempts; i++) {
-            if (dockerContainer.getStatus() == State.RUNNING) {
+            if (dockerContainer.getState() == State.RUNNING) {
                 return State.RUNNING;
             }
             Thread.sleep(1000);
         }
 
-        return  dockerContainer.getStatus();
+        return  dockerContainer.getState();
     }
 }

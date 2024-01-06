@@ -19,7 +19,7 @@ public class TomcatControlService implements ControlStrategy {
     TomcatService tomcatService;
 
     @SneakyThrows
-    @Override
+  //  @Override
     public State stopResource() {
         String[] command = {"bash", "-c", "sudo /opt/tomcat/apache-tomcat-10.1.17/bin/shutdown.sh"};
         try {
@@ -47,7 +47,7 @@ public class TomcatControlService implements ControlStrategy {
     }
 
     @SneakyThrows
-    @Override
+  //  @Override
     public State startResource() {
         String[] command = {"bash", "-c", "sudo /opt/tomcat/apache-tomcat-10.1.17/bin/startup.sh"};
         try {

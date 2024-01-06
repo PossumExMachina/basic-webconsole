@@ -2,7 +2,7 @@ package monitoring.docker;
 
 import monitoring.appServer.common.State;
 import monitoring.commands.CommandExec;
-import monitoring.commands.Commands;
+import monitoring.commands.control.CommandStrategy;
 import monitoring.utils.DetectResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,13 +24,23 @@ public class DockerContainerService {
     DetectResource detectResource;
     @Autowired
     CommandExec commandExec;
+    @Autowired
+    CommandStrategy commandStrategy;
+
+    public List<String> getContainerID() throws IOException {
+        List<String> IDlist = new ArrayList<>();
+        for (DockerContainer container : getDockerContainers()){
+            IDlist.add( container.getContainerID());
+        }
+        return IDlist;
+    }
 
     public List<DockerContainer> getDockerContainers() throws IOException {
-        if (!detectResource.resourcePresent(Commands.dockerExists, Commands.dockerControlOutput)) {
+        if (!detectResource.resourcePresent(commandStrategy.getDockerInstalledCmd(), commandStrategy.getDockeControlOutput())) {
             throw new FileNotFoundException("Docker is not present on the system");
         }
 
-        List<String> outputLines = commandExec.executeCommand(Commands.listContainers);
+        List<String> outputLines = commandExec.executeCommand(commandStrategy.getListContainersCmd());
         if (outputLines == null || outputLines.isEmpty()) {
             throw new IOException("Failed to list containers: No output from command");
         }

@@ -11,7 +11,8 @@ public class DockerContainer {
     private String containerID;
     private String image;
     private String created;
-    private State status;
-    private String names;
+    private State state;
+    private String name;
 
 }
+

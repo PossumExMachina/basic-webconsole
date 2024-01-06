@@ -1,13 +1,19 @@
 package monitoring.appServer.common;
 
 import monitoring.appServer.tomcat.TomcatControlService;
+import monitoring.commands.ControlStrategyFactory;
+import monitoring.commands.control.ControlStrategy;
+import monitoring.docker.DockerControlService;
+import monitoring.docker.ResourceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.naming.directory.InvalidAttributeValueException;
 import java.io.IOException;
 
 @RestController
@@ -18,6 +24,11 @@ public class ServerMonitoringController {
 
     @Autowired
     private TomcatControlService tomcatControlService;
+
+    @Autowired
+    private DockerControlService dockerControlService;
+    @Autowired
+    private ControlStrategyFactory controlStrategyFactory;
 
 
 
@@ -36,27 +47,36 @@ public class ServerMonitoringController {
         return ResponseEntity.ok(resourceData);
     }
 
-    @PostMapping("/tomcat/start")
-    public ResponseEntity<?> startTomcat() {
-        State state = tomcatControlService.startResource();
+    @PostMapping("/{resourceType}/start")
+    public ResponseEntity<?> startResource(@PathVariable String resourceType) throws IOException, InvalidAttributeValueException {
+        ControlStrategy strategy = controlStrategyFactory.getStrategy(resourceType);
+        State state = strategy.startResource();
+
         if (state == State.RUNNING) {
-            return ResponseEntity.ok("Tomcat started successfully.");
+            return ResponseEntity.ok(resourceType + " started successfully.");
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error starting Tomcat.");
+                    .body("Error starting " + resourceType + ".");
         }
     }
 
-    @PostMapping("/tomcat/stop")
-    public ResponseEntity<?> stopTomcat() {
-        State state = tomcatControlService.stopResource();
+    @PostMapping("/{resourceType}/stop")
+    public ResponseEntity<?> stopResource(@PathVariable String resourceType) throws IOException, InvalidAttributeValueException {
+        ControlStrategy strategy = controlStrategyFactory.getStrategy(resourceType);
+        State state = strategy.stopResource();
+
         if (state == State.STOPPED) {
-            return ResponseEntity.ok("Tomcat stopped successfully.");
+            return ResponseEntity.ok(resourceType + " stopped successfully.");
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error stopping Tomcat.");
+                    .body("Error stopping " + resourceType + ".");
         }
     }
+
+
+
+
+
 }
 
 

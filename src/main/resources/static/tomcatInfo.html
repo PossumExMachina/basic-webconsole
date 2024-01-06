@@ -53,24 +53,6 @@
 
   <script src="/scripts/main.js"></script>
 
-<script>
-  document.getElementById('searchForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    var path = document.getElementById('path').value;
-    searchFiles(path);
-  });
-
-  function searchFiles(path) {
-    fetch('/api/search?path=' + encodeURIComponent(path))
-            .then(response => response.json())
-            .then(data => {
-              var resultsDiv = document.getElementById('searchResults');
-              resultsDiv.innerHTML = '<ul>' + data.map(file => '<li>' + file + '</li>').join('') + '</ul>';
-            })
-            .catch(error => console.error('Error:', error));
-  }
-
-</script>
 </div>
 
 </body>

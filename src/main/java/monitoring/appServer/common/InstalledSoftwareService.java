@@ -1,6 +1,6 @@
 package monitoring.appServer.common;
 
-import monitoring.commands.Commands;
+import monitoring.commands.control.LinuxCommands;
 import monitoring.utils.DetectResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ public class InstalledSoftwareService {
     DetectResource detectResource;
 
     public InstalledSoftwareDTO getInstalledSoftwareDTO(){
-       boolean dockerInstalled = detectResource.resourcePresent(Commands.dockerExists, Commands.dockerControlOutput);
+       boolean dockerInstalled = detectResource.resourcePresent(LinuxCommands.dockerExists, LinuxCommands.dockerControlOutput);
         return new InstalledSoftwareDTO(dockerInstalled);
     }
 

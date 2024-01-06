@@ -24,7 +24,7 @@ public class TomcatService {
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
             process.waitFor();
-
+            logger.info("Waiiting for the checking process to finish");
             String line;
             while ((line = reader.readLine()) != null) {
                 if (line.contains("catalina")) {
@@ -40,6 +40,9 @@ public class TomcatService {
             Thread.currentThread().interrupt();
             return State.UNKNOWN;
         }
+     finally {
+        process.destroy(); // Ensure the process is destroyed after use
+    }
 
         return State.STOPPED;
     }

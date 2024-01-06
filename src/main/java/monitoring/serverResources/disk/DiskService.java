@@ -1,12 +1,9 @@
 package monitoring.serverResources.disk;
-import monitoring.appServer.common.State;
 import monitoring.commands.CommandExec;
-import monitoring.commands.Commands;
-import monitoring.docker.DockerContainer;
+import monitoring.commands.control.CommandStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,14 +12,14 @@ import java.util.stream.Collectors;
 public class DiskService {
 
     @Autowired
-    CommandExec commandExec;
+    private CommandExec commandExec;
 
-    public DiskService() {
-    }
 
+    @Autowired
+    private CommandStrategy commandStrategy;
 
     public List<DiskUsage> getDiskUsage() throws IOException {
-        List<String> outputLines = commandExec.executeCommand(Commands.getDiskUsage);
+        List<String> outputLines = commandExec.executeCommand(commandStrategy.getDiskUsageCmd());
         if (outputLines == null || outputLines.isEmpty()) {
             throw new IOException("Failed to get disk usage: No output from command");
         }
@@ -54,7 +51,7 @@ public class DiskService {
 
 
 //    public List<String> getDiskUsage() throws IOException {
-//        List<String> diskUsage = commandExec.executeCommand(Commands.getDiskUsage);
+//        List<String> diskUsage = commandExec.executeCommand(LinuxCommands.getDiskUsage);
 //        if (diskUsage != null && !diskUsage.isEmpty()) {
 //            return diskUsage;
 //        } else {

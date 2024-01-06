@@ -2,6 +2,9 @@ package monitoring.appServer.application;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import monitoring.appServer.common.State;
+import monitoring.appServer.tomcat.TomcatControlService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
@@ -12,6 +15,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class ApplicationService {
+
+    private static final Logger logger = LoggerFactory.getLogger(ApplicationService.class);
 
     @Autowired
     private TomcatWebappScannerService tomcatWebappScannerService;
@@ -42,15 +47,17 @@ public class ApplicationService {
     private State getApplicationStatus(String appName) throws IOException {
         String url = urlService.createURL(appName);
         try {
+            logger.info("trying " + url);
             JsonNode json = urlService.makeHttpRequest(url);
             String status = json.get("status").toString().toUpperCase();
-            if (!"UP".equals(status)) {
+            if ("UP".equals(status)) {
               return State.RUNNING;
             }
             else return State.STOPPED;
         }
         catch ( IOException e) {
-           return State.UNKNOWN;
+            logger.info("caught this exception ", e);
+           return State.STOPPED;
         }
     }
 

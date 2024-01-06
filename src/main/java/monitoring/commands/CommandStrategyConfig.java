@@ -1,5 +1,8 @@
 package monitoring.commands;
 
+import monitoring.commands.control.CommandStrategy;
+import monitoring.commands.control.LinuxCommands;
+import monitoring.commands.control.MacOSCommands;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
