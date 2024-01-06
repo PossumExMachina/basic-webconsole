@@ -2,7 +2,6 @@ package monitoring.appServer.application;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import monitoring.appServer.common.State;
-import monitoring.appServer.tomcat.TomcatControlService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +55,6 @@ public class ApplicationService {
             else return State.STOPPED;
         }
         catch ( IOException e) {
-            logger.info("caught this exception ", e);
            return State.STOPPED;
         }
     }

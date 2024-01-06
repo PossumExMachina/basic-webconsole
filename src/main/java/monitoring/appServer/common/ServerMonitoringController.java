@@ -30,6 +30,9 @@ public class ServerMonitoringController {
     @Autowired
     private ControlStrategyFactory controlStrategyFactory;
 
+    @Autowired
+    private ResourceContext resourceContext;
+
 
 
     public ServerMonitoringController() {
@@ -50,7 +53,8 @@ public class ServerMonitoringController {
     @PostMapping("/{resourceType}/start")
     public ResponseEntity<?> startResource(@PathVariable String resourceType) throws IOException, InvalidAttributeValueException {
         ControlStrategy strategy = controlStrategyFactory.getStrategy(resourceType);
-        State state = strategy.startResource();
+        resourceContext.setResourceId(resourceType);
+        State state = strategy.startResource(resourceContext);
 
         if (state == State.RUNNING) {
             return ResponseEntity.ok(resourceType + " started successfully.");
@@ -63,7 +67,8 @@ public class ServerMonitoringController {
     @PostMapping("/{resourceType}/stop")
     public ResponseEntity<?> stopResource(@PathVariable String resourceType) throws IOException, InvalidAttributeValueException {
         ControlStrategy strategy = controlStrategyFactory.getStrategy(resourceType);
-        State state = strategy.stopResource();
+        resourceContext.setResourceId(resourceType);
+        State state = strategy.stopResource(resourceContext);
 
         if (state == State.STOPPED) {
             return ResponseEntity.ok(resourceType + " stopped successfully.");

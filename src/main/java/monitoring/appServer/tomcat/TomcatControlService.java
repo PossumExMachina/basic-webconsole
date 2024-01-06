@@ -1,6 +1,7 @@
 package monitoring.appServer.tomcat;
 
 import lombok.SneakyThrows;
+import monitoring.appServer.common.ResourceContext;
 import monitoring.appServer.common.State;
 import monitoring.commands.control.ControlStrategy;
 import org.slf4j.Logger;
@@ -19,8 +20,8 @@ public class TomcatControlService implements ControlStrategy {
     TomcatService tomcatService;
 
     @SneakyThrows
-  //  @Override
-    public State stopResource() {
+    @Override
+    public State stopResource(ResourceContext resourceContext) {
         String[] command = {"bash", "-c", "sudo /opt/tomcat/apache-tomcat-10.1.17/bin/shutdown.sh"};
         try {
             Process process = Runtime.getRuntime().exec(command);
@@ -47,8 +48,8 @@ public class TomcatControlService implements ControlStrategy {
     }
 
     @SneakyThrows
-  //  @Override
-    public State startResource() {
+    @Override
+    public State startResource(ResourceContext resourceContext) {
         String[] command = {"bash", "-c", "sudo /opt/tomcat/apache-tomcat-10.1.17/bin/startup.sh"};
         try {
             Process process = Runtime.getRuntime().exec(command);

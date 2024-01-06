@@ -207,10 +207,12 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function startContainer(containerID) {
+    console.log("Starting")
     sendContainerCommand(containerID, 'start');
 }
 
 function stopContainer(containerID) {
+    console.log("Stopping")
     sendContainerCommand(containerID, 'stop');
 }
 
@@ -219,9 +221,11 @@ function removeContainer(containerID) {
 }
 
 function sendContainerCommand(containerID, action) {
-    fetch(`/${containerID}/${action}/`, { method: 'POST' })
+    console.log("Sending container command")
+    fetch(`/${containerID}/${action}`, { method: 'POST' })
         .then(response => {
             if (response.ok) {
+                console.log("response is ok i guess")
                 return response.text();
             } else {
                 throw new Error(`Failed to ${action} container ${containerID}`);
