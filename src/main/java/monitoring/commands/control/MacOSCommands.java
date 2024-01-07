@@ -10,7 +10,7 @@ public final class MacOSCommands implements CommandStrategy {
 
     public static final String startTomcat = "sudo systemctl start tomcat";
     public static final String stopTomcat = "sudo systemctl stop tomcat";
-    public static final String getDiskUsage = "df -h";
+    public static final String getDiskUsage = "echo \"Filesystem Size Used Avail Use% Mounted on\"; df -h | awk 'NR>1 {print $1, $2, $3, $4, $5, $9}'";
 
     public static final String getFreeMemory = """
             vm_stat | awk -v FS="[^0-9]+" '

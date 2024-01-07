@@ -93,8 +93,6 @@ function updateUI(data) {
                             <th>Used</th>
                             <th>Available</th>
                             <th>Capacity</th>
-                            <th>iUsed</th>
-                            <th>iFree</th>
                             <th>Mounted On</th>
                         </tr>`;
 
@@ -106,8 +104,6 @@ function updateUI(data) {
                     <td>${usage.used}</td>
                     <td>${usage.available}</td>
                     <td ${capacityStyle}>${usage.capacity}%</td>
-                    <td>${usage.iused}</td>
-                    <td>${usage.ifree}</td>
                     <td>${usage.mountedOn}</td>
                 </tr>`;
         }).join('');
