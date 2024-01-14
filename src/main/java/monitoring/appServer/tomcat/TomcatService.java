@@ -16,6 +16,15 @@ public class TomcatService {
 
     private static final Logger logger = LoggerFactory.getLogger(TomcatService.class);
 
+    /**
+     * Checks and returns the current state of the Tomcat server.
+     *
+     * Executes a bash command to determine if the 'catalina.startup.Bootstrap' process
+     * is running, indicating that Tomcat is active. Returns 'RUNNING' if the process is found,
+     * 'STOPPED' if not found, and 'UNKNOWN' in case of any errors during execution.
+     *
+     * @return State The state of the Tomcat server - RUNNING, STOPPED, or UNKNOWN.
+     */
     @SneakyThrows
     public State getTomcatState() {
         String[] command = {"bash", "-c", "ps aux | grep [c]atalina.startup.Bootstrap"};

@@ -21,6 +21,15 @@ public class DockerControlService implements ControlStrategy {
     private static final Logger logger = LoggerFactory.getLogger(DockerControlService.class);
 
 
+    /**
+     * Attempts to stop a Docker container based on the provided ResourceContext.
+     *
+     * Retrieves the DockerContainer by its ID and executes a command to stop it. It checks the container's state
+     * up to a specified number of attempts to confirm it has stopped. Returns the container's final state.
+     *
+     * @param resourceContext Context of the resource to be stopped, containing the resource ID.
+     * @return State The final state of the Docker container, STOPPED if successfully stopped, otherwise its current state.
+     */
     @SneakyThrows
     @Override
     public State stopResource(ResourceContext resourceContext) {
@@ -50,6 +59,15 @@ public class DockerControlService implements ControlStrategy {
     }
 
 
+    /**
+     * Attempts to start a Docker container based on the provided ResourceContext.
+     *
+     * Retrieves the DockerContainer by its ID and executes a command to start it. It checks the container's state
+     * up to a specified number of attempts to confirm it has started. Returns the container's final state.
+     *
+     * @param resourceContext Context of the resource to be started, containing the resource ID.
+     * @return State The final state of the Docker container, RUNNING if successfully started, otherwise its current state.
+     */
     @SneakyThrows
     @Override
     public State startResource(ResourceContext resourceContext) {

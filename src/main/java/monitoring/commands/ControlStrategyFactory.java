@@ -25,6 +25,19 @@ public class ControlStrategyFactory {
     @Autowired
     private DockerContainerService dockerContainerService;
 
+
+    /**
+     * Retrieves a ControlStrategy based on the specified resource type.
+     *
+     * This method selects and returns a specific ControlStrategy depending on the resource type provided.
+     * It supports 'tomcat' for TomcatControlService and checks for matching Docker container IDs for DockerControlService.
+     * If no matching strategy is found, an InvalidAttributeValueException is thrown.
+     *
+     * @param resourceType The type of the resource for which the control strategy is required.
+     * @return ControlStrategy The strategy corresponding to the given resource type.
+     * @throws IOException If an I/O error occurs.
+     * @throws InvalidAttributeValueException If the resource type does not match any known strategy.
+     */
     public ControlStrategy getStrategy(String resourceType) throws IOException, InvalidAttributeValueException {
         if (resourceType.equals("tomcat")) {
             return tomcatControlService;

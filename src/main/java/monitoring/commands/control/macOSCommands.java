@@ -3,7 +3,7 @@ package monitoring.commands.control;
 import org.springframework.stereotype.Component;
 
 @Component
-public final class MacOSCommands implements CommandStrategy {
+public final class macOSCommands implements CommandStrategy {
     public static final String dockerExists = "docker -v";
     public static final String dockerControlOutput = "Docker version";
     public static final String listContainers = "docker ps -a";

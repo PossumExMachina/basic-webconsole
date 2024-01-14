@@ -22,15 +22,30 @@ public class URLService {
     public URLService() {
     }
 
+    /**
+     Returns healtcheck URL for SpringBoot application.
+     @param applName - name of the application for health check probe
+     @return actuator/health url (String)
+     */
     public String createURL(String applName) {
-        /*
-        Creates default healtcheck URL for SpringBoot application
-        */
         String url = "http://localhost:8080/" + applName + "/actuator/health";
         return url;
     }
 
-
+    /**
+     * Makes an HTTP request to the specified URL and returns the response as a JsonNode.
+     *
+     * This method establishes an HTTP connection to the given URL and retrieves the response.
+     * It expects the response to be in JSON format. If the HTTP response code is OK (200),
+     * it reads the response body and converts it into a JsonNode. If the response body is empty,
+     * it returns null. In case of any issues in parsing the JSON response, an IOException is thrown.
+     * An IOException is also thrown if the response code is not HTTP_OK.
+     *
+     * @param urlString The URL string to which the HTTP request is made.
+     * @return JsonNode The parsed JSON response as a JsonNode. Returns null if the response body is empty.
+     * @throws IOException If there's an issue with the network connection, if the server returns
+     *                     an unexpected response code, or if there's an error parsing the JSON response.
+     */
     protected JsonNode makeHttpRequest(String urlString) throws IOException {
         URL url = new URL(urlString);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();

@@ -23,6 +23,19 @@ public class ApplicationService {
     @Autowired
     private URLService urlService;
 
+
+
+    /**
+     * Retrieves list of Applications with information about its state (RUNNING / STOPPED / UNKNOWN)
+     *
+     * This method calls the scanForWebapps method to check for deployed applications.
+     * It then iterates through these applications, obtaining the status for each one.
+     * In case of an IOException, the application status is set to UNKNOWN.
+     * If no applications are found, an empty list is returned.
+     *
+     * @return List<Application> A list of Application objects, each containing the name and status.
+     * If there are no applications deployed, returns an empty list.
+     */
     public List<Application> getApplications() {
         Optional<List<String>> optionalAppNames = tomcatWebappScannerService.scanForWebapps();
 
@@ -43,6 +56,17 @@ public class ApplicationService {
         }
     }
 
+
+    /**
+     * Determines the status of an application by its name.
+     *
+     * This method constructs a URL for the application and makes an HTTP request to retrieve its status.
+     * If the status is "UP", it returns RUNNING, otherwise it returns STOPPED.
+     *
+     * @param appName The name of the application whose status is to be determined.
+     * @return State (either RUNNING / STOPPED / UNKNOWN.
+     * @throws IOException If an error occurs while making the HTTP request.
+     */
     private State getApplicationStatus(String appName) throws IOException {
         String url = urlService.createURL(appName);
         try {

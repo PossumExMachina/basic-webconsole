@@ -19,6 +19,20 @@ public class TomcatControlService implements ControlStrategy {
     @Autowired
     TomcatService tomcatService;
 
+
+    /**
+     * Attempts to stop a Tomcat server resource.
+     *
+     * This method executes a bash command to stop the Tomcat server.
+     * It waits for the command to complete and checks the state of the Tomcat server in intervals.
+     * If the server stops successfully, the state 'STOPPED' is returned.
+     * If the server does not stop, the current state of the server is returned.
+     * In case of any IOException or InterruptedException during the process execution, the method logs the
+     * error and returns the state 'UNKNOWN'.
+     *
+     * @param resourceContext The context of the resource being stopped.
+     * @return State The state of the Tomcat server after attempting to stop it.
+     */
     @SneakyThrows
     @Override
     public State stopResource(ResourceContext resourceContext) {
@@ -47,6 +61,21 @@ public class TomcatControlService implements ControlStrategy {
         return  tomcatService.getTomcatState();
     }
 
+
+
+    /**
+     * Attempts to start a Tomcat server resource.
+     *
+     * This method executes a bash command to start the Tomcat server.
+     * It waits for the command to complete and checks the state of the Tomcat server in intervals.
+     * If the server starts successfully, the state 'RUNNING' is returned.
+     * If the server does not start, the current state of the server is returned.
+     * In case of any IOException or InterruptedException during the process execution, the method logs the
+     * error and returns the state 'UNKNOWN'.
+     *
+     * @param resourceContext The context of the resource being stopped.
+     * @return State The state of the Tomcat server after attempting to stop it.
+     */
     @SneakyThrows
     @Override
     public State startResource(ResourceContext resourceContext) {

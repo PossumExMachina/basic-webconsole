@@ -37,7 +37,7 @@
 //    void testMacOSCommandStrategy() {
 //        System.setProperty("os.name", "Mac OS X");
 //        context.refresh();
-//        assertTrue(context.getBean(CommandStrategy.class) instanceof MacOSCommands);
+//        assertTrue(context.getBean(CommandStrategy.class) instanceof macOSCommands);
 //    }
 //
 //    @Test

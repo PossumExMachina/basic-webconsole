@@ -1,5 +1,4 @@
 package monitoring.serverResources.disk;
-import monitoring.appServer.application.ApplicationService;
 import monitoring.commands.CommandExec;
 import monitoring.commands.control.CommandStrategy;
 import org.slf4j.Logger;
@@ -19,10 +18,18 @@ public class DiskService {
     @Autowired
     private CommandExec commandExec;
 
-
     @Autowired
     private CommandStrategy commandStrategy;
 
+    /**
+     * Retrieves disk usage information from the system.
+     *
+     * Executes a command to get disk usage details and parses the output into a list of DiskUsage objects.
+     * Throws an IOException if the command execution returns no output.
+     *
+     * @return List<DiskUsage> A list of DiskUsage objects representing the disk usage information.
+     * @throws IOException If the command execution fails or returns no output.
+     */
     public List<DiskUsage> getDiskUsage() throws IOException {
         List<String> outputLines = commandExec.executeCommand(commandStrategy.getDiskUsageCmd());
         if (outputLines == null || outputLines.isEmpty()) {
@@ -35,7 +42,15 @@ public class DiskService {
                 .collect(Collectors.toList());
     }
 
-
+    /**
+     * Parses a single line of disk usage command output into a DiskUsage object.
+     *
+     * Splits the line into parts based on whitespace and assigns these parts to the respective fields
+     * of the DiskUsage object. Handles missing or incomplete data gracefully by assigning default values.
+     *
+     * @param line A string representing a single line of disk usage output.
+     * @return DiskUsage A DiskUsage object populated with values parsed from the line.
+     */
     private DiskUsage parseLine(String line) {
         String[] parts = line.split("\\s+");
 
@@ -51,17 +66,4 @@ public class DiskService {
 
         return new DiskUsage(fileSystem, fileSystemSize, used, available, capacity, iused, ifree, mountedOn);
     }
-
-
-
-
-//    public List<String> getDiskUsage() throws IOException {
-//        List<String> diskUsage = commandExec.executeCommand(LinuxCommands.getDiskUsage);
-//        if (diskUsage != null && !diskUsage.isEmpty()) {
-//            return diskUsage;
-//        } else {
-//            throw new IOException("Failed to get memory usage: No output from command");
-//        }
-//    }
-
 }

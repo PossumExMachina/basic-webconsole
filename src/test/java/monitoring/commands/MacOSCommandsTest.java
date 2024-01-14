@@ -28,14 +28,14 @@
 //    TomcatCommandService mocktomcatCommandService;
 //
 //    @InjectMocks
-//    private MacOSCommands macOSCommands;
+//    private macOSCommands macOSCommands;
 //
 //    @BeforeEach
 //    void setUp() {
 //
 //        mockCommandExec = Mockito.mock(CommandExec.class);
 //        mocktomcatCommandService = Mockito.mock(TomcatCommandService.class);
-//        macOSCommands = new MacOSCommands();
+//        macOSCommands = new macOSCommands();
 //        ReflectionTestUtils.setField(macOSCommands, "commandExec", mockCommandExec);
 //        ReflectionTestUtils.setField(macOSCommands, "tomcatCommandService", mocktomcatCommandService);
 //    }
