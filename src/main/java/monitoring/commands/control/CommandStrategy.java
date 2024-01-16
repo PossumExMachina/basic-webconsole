@@ -11,6 +11,8 @@ public interface CommandStrategy {
     String getStartTomcatCmd();
 
     String getStopTomcatCmd();
+    String getTomcatInstalledCmd();
+    String getTomcatControlOutput();
 
     String getDiskUsageCmd();
 

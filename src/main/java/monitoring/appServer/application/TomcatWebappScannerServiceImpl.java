@@ -17,10 +17,8 @@ public class TomcatWebappScannerServiceImpl implements TomcatWebappScannerServic
       only returns applications that have META-INF dictionary inside their deployment dir
       */
     public Optional<List<String>> scanForWebapps(){
-        logger.info(System.getenv("CATALINA_HOME"));
 
         File folder = new File(System.getenv("CATALINA_HOME") + "/webapps");
-        logger.info(folder.getAbsolutePath());
         logger.info(folder.getPath());
         String mandatoryFile = "META-INF"; // mandatory file is used to check if the directory is app directory
         File[] directories = folder.listFiles();

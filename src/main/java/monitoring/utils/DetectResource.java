@@ -16,13 +16,15 @@ public class DetectResource {
     public boolean resourcePresent(String command, String controlOutput) {
         Process process = null;
         try {
+            logger.info("executong: " + command);
             process = Runtime.getRuntime().exec(command);
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line;
 
             while ((line = reader.readLine()) != null) {
+                logger.info(line);
                 if (line.contains(controlOutput)) {
-                    logger.info("Docker found: {}", line);
+                    logger.info("Resource found: {}", line);
                     return true;
                 }
             }

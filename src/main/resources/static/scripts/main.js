@@ -249,7 +249,7 @@ function sendContainerCommand(containerID, action) {
 
 function displayResourcePanels(availability) {
     const dockerPanel = document.getElementById('dockerContainers');
-   // const tomcatPanel = document.getElementById('clickable'); // Assuming this is your Tomcat panel
+    const tomcatPanel = document.getElementById('clickable');
 
     if (availability.dockerAvailable) {
         dockerPanel.style.display = 'block';
@@ -257,11 +257,11 @@ function displayResourcePanels(availability) {
         dockerPanel.style.display = 'none';
     }
 
-    // if (availability.tomcatAvailable) {
-    //     tomcatPanel.style.display = 'block';
-    // } else {
-    //     tomcatPanel.style.display = 'none';
-    // }
+    if (availability.tomcatAvailable) {
+         tomcatPanel.style.display = 'block';
+     } else {
+         tomcatPanel.style.display = 'none';
+     }
 }
 
 

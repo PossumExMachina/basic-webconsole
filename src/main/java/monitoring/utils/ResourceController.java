@@ -17,19 +17,19 @@ public class ResourceController {
 
     @GetMapping("/resources/availability")
     public ResourceAvailability getResourcesAvailability() {
-        boolean dockerAvailable = detectResource.resourcePresent(commandStrategy.getDockerInstalledCmd(), "blebleble");
-       // boolean tomcatAvailable = detectResource.resourcePresent(commandStrategy., "expected-output-for-tomcat");
+        boolean dockerAvailable = detectResource.resourcePresent(commandStrategy.getDockerInstalledCmd(), commandStrategy.getDockeControlOutput());
+        boolean tomcatAvailable = detectResource.resourcePresent(commandStrategy.getTomcatInstalledCmd(), commandStrategy.getTomcatControlOutput());
 
-        return new ResourceAvailability(dockerAvailable);
+        return new ResourceAvailability(dockerAvailable, tomcatAvailable);
     }
 
     public static class ResourceAvailability {
         public boolean dockerAvailable;
-      //  public boolean tomcatAvailable;
+        public boolean tomcatAvailable;
 
-        public ResourceAvailability(boolean dockerAvailable) {
+        public ResourceAvailability(boolean dockerAvailable, boolean tomcatAvailable) {
             this.dockerAvailable = dockerAvailable;
-         //   this.tomcatAvailable = tomcatAvailable;
+            this.tomcatAvailable = tomcatAvailable;
         }
 
     }
