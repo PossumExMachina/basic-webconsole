@@ -7,12 +7,10 @@ public class InstalledSoftwareDTO {
 
     private final boolean dockerInstalled;
 
-
     public InstalledSoftwareDTO(boolean dockerInstalled) {
         this.dockerInstalled = dockerInstalled;
 
     }
-
 
 
 }

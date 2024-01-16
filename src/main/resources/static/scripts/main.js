@@ -80,6 +80,8 @@ function updateUI(data) {
 
 
 
+
+
     // Update disk usage
     const diskUsageList = document.getElementById('diskUsageList');
     console.log("diskUsage:", data.diskUsage);

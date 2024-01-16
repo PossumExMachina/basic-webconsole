@@ -13,14 +13,11 @@ public class DetectResource {
 
     private static final Logger logger = LoggerFactory.getLogger(DetectResource.class);
 
-
-
     public boolean resourcePresent(String command, String controlOutput) {
         Process process = null;
         try {
             process = Runtime.getRuntime().exec(command);
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-
             String line;
 
             while ((line = reader.readLine()) != null) {

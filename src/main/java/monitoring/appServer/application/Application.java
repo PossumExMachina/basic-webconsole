@@ -13,6 +13,4 @@ public class Application {
     private String name;
     private State state;
 
-
-
 }

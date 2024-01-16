@@ -10,11 +10,12 @@ import java.util.Optional;
 @Service
 public class TomcatWebappScannerServiceImpl implements TomcatWebappScannerService {
 
+
+    /**
+      scans the directory where applications are deployed on tomcat and returns list of the applications names
+      only returns applications that have META-INF dictionary inside their deployment dir
+      */
     public Optional<List<String>> scanForWebapps(){
-       /*
-       scans the directory where applications are deployed on tomcat and returns list of the applications names
-       only returns applications that have META-INF dictionary inside their deployment dir
-       */
 
         File folder = new File("/opt/tomcat/apache-tomcat-10.1.17/webapps");  //TODO: change it so it is not hardcoded
 

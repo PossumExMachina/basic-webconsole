@@ -1,10 +1,7 @@
 package monitoring.appServer.common;
 
-import monitoring.appServer.tomcat.TomcatControlService;
 import monitoring.commands.ControlStrategyFactory;
 import monitoring.commands.control.ControlStrategy;
-import monitoring.docker.DockerControlService;
-import monitoring.docker.ResourceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,20 +20,10 @@ public class ServerMonitoringController {
     private ServerService serverService;
 
     @Autowired
-    private TomcatControlService tomcatControlService;
-
-    @Autowired
-    private DockerControlService dockerControlService;
-    @Autowired
     private ControlStrategyFactory controlStrategyFactory;
 
     @Autowired
     private ResourceContext resourceContext;
-
-
-
-    public ServerMonitoringController() {
-    }
 
     @GetMapping("/resources")
     public ResponseEntity<AllServerDataDTO> getResources() throws IOException {
@@ -77,9 +64,6 @@ public class ServerMonitoringController {
                     .body("Error stopping " + resourceType + ".");
         }
     }
-
-
-
 
 
 }

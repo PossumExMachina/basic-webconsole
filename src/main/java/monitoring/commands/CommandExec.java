@@ -1,6 +1,5 @@
 package monitoring.commands;
 import org.springframework.stereotype.Service;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,8 +8,6 @@ import java.util.List;
 
 @Service
 public class CommandExec {
-
-
 
     /**
      * Executes a given command in the bash shell and returns its output.
@@ -50,7 +47,4 @@ public class CommandExec {
             throw new IOException("Interrupted while reading the command output", e);
         }
     }
-
-
-
 }

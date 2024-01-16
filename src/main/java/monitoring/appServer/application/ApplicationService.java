@@ -24,7 +24,6 @@ public class ApplicationService {
     private URLService urlService;
 
 
-
     /**
      * Retrieves list of Applications with information about its state (RUNNING / STOPPED / UNKNOWN)
      *

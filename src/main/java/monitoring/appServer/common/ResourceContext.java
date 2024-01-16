@@ -1,24 +1,16 @@
 package monitoring.appServer.common;
 
-import monitoring.docker.ContainerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.Getter;
 import org.springframework.stereotype.Component;
 
+@Getter
 @Component
 public class ResourceContext {
 
-
     private String resourceId;
-    // Other parameters as needed
-
-    public String getResourceId() {
-        return resourceId;
-    }
 
     public void setResourceId(String resourceId) {
         this.resourceId = resourceId;
     }
-
-
 
 }
