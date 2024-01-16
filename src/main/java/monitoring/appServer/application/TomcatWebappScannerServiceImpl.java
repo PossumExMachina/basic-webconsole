@@ -1,7 +1,8 @@
 package monitoring.appServer.application;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,16 +10,18 @@ import java.util.Optional;
 
 @Service
 public class TomcatWebappScannerServiceImpl implements TomcatWebappScannerService {
-
+    private static final Logger logger = LoggerFactory.getLogger(TomcatWebappScannerServiceImpl.class);
 
     /**
       scans the directory where applications are deployed on tomcat and returns list of the applications names
       only returns applications that have META-INF dictionary inside their deployment dir
       */
     public Optional<List<String>> scanForWebapps(){
+        logger.info(System.getenv("CATALINA_HOME"));
 
-        File folder = new File("/opt/tomcat/apache-tomcat-10.1.17/webapps");  //TODO: change it so it is not hardcoded
-
+        File folder = new File(System.getenv("CATALINA_HOME") + "/webapps");
+        logger.info(folder.getAbsolutePath());
+        logger.info(folder.getPath());
         String mandatoryFile = "META-INF"; // mandatory file is used to check if the directory is app directory
         File[] directories = folder.listFiles();
         List<String> appList = new ArrayList<>();

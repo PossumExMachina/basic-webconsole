@@ -7,6 +7,14 @@ function fetchData() {
             updateUI(data);
         })
         .catch(error => console.error('Error fetching resource data:', error));
+
+
+    fetch('/resources/availability')
+        .then(response => response.json())
+        .then(availability => {
+            displayResourcePanels(availability);
+        })
+        .catch(error => console.error('Error fetching resource availability:', error));
 }
 
 function updateUI(data) {
@@ -239,6 +247,22 @@ function sendContainerCommand(containerID, action) {
         });
 }
 
+function displayResourcePanels(availability) {
+    const dockerPanel = document.getElementById('dockerContainers');
+   // const tomcatPanel = document.getElementById('clickable'); // Assuming this is your Tomcat panel
+
+    if (availability.dockerAvailable) {
+        dockerPanel.style.display = 'block';
+    } else {
+        dockerPanel.style.display = 'none';
+    }
+
+    // if (availability.tomcatAvailable) {
+    //     tomcatPanel.style.display = 'block';
+    // } else {
+    //     tomcatPanel.style.display = 'none';
+    // }
+}
 
 
 // Call fetchData when the page loads
