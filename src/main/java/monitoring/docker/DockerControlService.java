@@ -1,8 +1,8 @@
 package monitoring.docker;
 
 import lombok.SneakyThrows;
-import monitoring.appServer.common.ResourceContext;
-import monitoring.appServer.common.State;
+import monitoring.common.ResourceContext;
+import monitoring.common.State;
 import monitoring.commands.control.ControlStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.Optional;
 
 @Service
 public class DockerControlService implements ControlStrategy {

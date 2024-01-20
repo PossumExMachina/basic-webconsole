@@ -1,4 +1,4 @@
-package monitoring.appServer.common;
+package monitoring.common;
 
 import lombok.Getter;
 import org.springframework.stereotype.Component;

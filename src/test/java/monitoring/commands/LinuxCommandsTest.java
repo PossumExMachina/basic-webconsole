@@ -1,6 +1,6 @@
 //package monitoring.commands;
 //
-//import monitoring.appServer.common.State;
+//import monitoring.common.State;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;
 //import org.mockito.InjectMocks;

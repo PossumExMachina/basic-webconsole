@@ -1,5 +1,7 @@
-package monitoring.appServer.common;
+package monitoring.serverResources;
 
+import monitoring.common.ResourceContext;
+import monitoring.common.State;
 import monitoring.commands.ControlStrategyFactory;
 import monitoring.commands.control.ControlStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +16,10 @@ import javax.naming.directory.InvalidAttributeValueException;
 import java.io.IOException;
 
 @RestController
-public class ServerMonitoringController {
+public class ServerDataController {
 
     @Autowired
-    private ServerService serverService;
+    private ServerDataService serverService;
 
     @Autowired
     private ControlStrategyFactory controlStrategyFactory;

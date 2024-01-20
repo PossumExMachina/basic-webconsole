@@ -1,7 +1,7 @@
 package monitoring.appServer.application;
 
 import lombok.*;
-import monitoring.appServer.common.State;
+import monitoring.common.State;
 
 @AllArgsConstructor
 @NoArgsConstructor

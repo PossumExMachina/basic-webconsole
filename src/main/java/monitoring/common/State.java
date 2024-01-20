@@ -1,4 +1,4 @@
-package monitoring.appServer.common;
+package monitoring.common;
 
 public enum State {
     RUNNING, STOPPED, FAILED, UNKNOWN, EXITED, UP, CREATED

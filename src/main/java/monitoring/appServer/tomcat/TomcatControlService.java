@@ -1,8 +1,8 @@
 package monitoring.appServer.tomcat;
 
 import lombok.SneakyThrows;
-import monitoring.appServer.common.ResourceContext;
-import monitoring.appServer.common.State;
+import monitoring.common.ResourceContext;
+import monitoring.common.State;
 import monitoring.commands.control.ControlStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

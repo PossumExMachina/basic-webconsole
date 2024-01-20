@@ -1,7 +1,7 @@
 package monitoring.docker;
 
 import lombok.*;
-import monitoring.appServer.common.State;
+import monitoring.common.State;
 @ToString
 @Setter
 @Getter

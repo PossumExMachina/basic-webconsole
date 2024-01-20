@@ -4,7 +4,6 @@ import monitoring.appServer.tomcat.TomcatControlService;
 import monitoring.commands.control.ControlStrategy;
 import monitoring.docker.DockerContainerService;
 import monitoring.docker.DockerControlService;
-import monitoring.docker.ResourceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

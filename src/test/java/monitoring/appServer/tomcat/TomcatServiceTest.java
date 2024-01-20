@@ -1,6 +1,6 @@
 //package monitoring.appServer.tomcat;
 //
-//import monitoring.appServer.common.State;
+//import monitoring.common.State;
 //import monitoring.commands.CommandStrategy;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;

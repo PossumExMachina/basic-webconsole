@@ -7,8 +7,6 @@ public final class macOSCommands implements CommandStrategy {
     public static final String dockerExists = "docker -v";
     public static final String dockerControlOutput = "Docker version";
     public static final String listContainers = "docker ps -a";
-
-
     public static final String tomcatExists = "ls " + System.getenv("CATALINA_HOME");
     public static final String tomcatControlOutput = "webapps";
     public static final String startTomcat = "sudo systemctl start tomcat";
@@ -30,8 +28,6 @@ public final class macOSCommands implements CommandStrategy {
                     printf "%d MB\\t%d MB\\t%d MB\\n", total, used, free
                 }'
                 """;
-
-
 
     @Override
     public String getDockerInstalledCmd() {
@@ -75,10 +71,6 @@ public final class macOSCommands implements CommandStrategy {
 
     @Override
     public String getDockeControlOutput() {
-        return dockerControlOutput;
-    }
-
-    public String getDockerControlOutput(){
         return dockerControlOutput;
     }
 

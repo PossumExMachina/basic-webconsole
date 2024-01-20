@@ -7,15 +7,11 @@ public interface CommandStrategy {
     String getDockerInstalledCmd();
     String getFreeMemoryCmd();
     String getListContainersCmd();
-
     String getStartTomcatCmd();
-
     String getStopTomcatCmd();
     String getTomcatInstalledCmd();
     String getTomcatControlOutput();
-
     String getDiskUsageCmd();
-
     String getDockeControlOutput();
 
 }

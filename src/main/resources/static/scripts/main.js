@@ -1,26 +1,29 @@
 function fetchData() {
     console.log("Fetching data");
-    fetch('/resources')
-        .then(response => response.json())
-        .then(data => {
-            console.log("Received data:", data); // Add this line
-            updateUI(data);
-        })
-        .catch(error => console.error('Error fetching resource data:', error));
 
+    Promise.all([
+        fetch('/resources').then(response => response.json()),
+        fetch('/tomcatInfo').then(response => response.json()),
+        fetch('/resources/availability').then(response => response.json())
+    ])
+        .then(([resourcesData, tomcatInfo, availability]) => {
+            const combinedData = {
+                resources: resourcesData,
+                tomcat: tomcatInfo,
+                availability: availability
+            };
 
-    fetch('/resources/availability')
-        .then(response => response.json())
-        .then(availability => {
-            displayResourcePanels(availability);
+            updateUI(combinedData);
         })
-        .catch(error => console.error('Error fetching resource availability:', error));
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
 }
 
-function updateUI(data) {
+function updateUI(x) {
     // Update Tomcat status
     const tomcatStatusText = document.getElementById('tomcatStatusText');
-    if (data.tomcatState.toString() === "RUNNING") {
+    if (x.tomcat.tomcatState.toString() === "RUNNING") {
         tomcatStatusText.innerHTML = '<p style="color: darkgreen">Tomcat is running.</p>';
     } else {
         tomcatStatusText.innerHTML = '<p style="color: darkred">Tomcat is not running.</p>';
@@ -29,9 +32,9 @@ function updateUI(data) {
 
     // Update running applications list
     const applicationsList = document.getElementById('runningAppsList');
-    console.log("Applications:", data.applications);
-    if (data.applications && data.applications.length > 0) {
-        applicationsList.innerHTML = data.applications
+    console.log("Applications:", x.applications);
+    if (x.tomcat.applications && x.tomcat.applications.length > 0) {
+        applicationsList.innerHTML = x.tomcat.applications
             .map(app => {
                 const statusStyle = app.state === 'RUNNING' ? 'style="color: darkgreen;"' : 'style="color: darkred;"';
                 return `<li>${app.name}, <span ${statusStyle}>Status: ${app.state}</span></span></li>`;
@@ -41,12 +44,10 @@ function updateUI(data) {
     }
 
 
-    // Update docker container info
-    // Update docker container info
     const dockerContainerList = document.getElementById('dockerContainerList');
-    console.log("dockerContainers:", data.dockerContainers);
+    console.log("dockerContainers:", x.dockerContainers);
 
-    if (data.dockerContainers && data.dockerContainers.length > 0) {
+    if (x.resources.dockerContainers && x.resources.dockerContainers.length > 0) {
         console.log("Processing docker containers");
 
         let tableHTML = `<table>
@@ -59,7 +60,7 @@ function updateUI(data) {
                         <th>Action</th>
                     </tr>`;
 
-        tableHTML += data.dockerContainers
+        tableHTML += x.resources.dockerContainers
             .map(container => {
                 const statusStyle = container.state === 'EXITED' ? 'style="color: darkred;"' : 'style="color: green;"';
                 return `<tr>
@@ -84,17 +85,11 @@ function updateUI(data) {
         dockerContainerList.innerHTML = '<p>No docker data available</p>';
     }
 
-
-
-
-
-
-
-    // Update disk usage
+    // Updates disk usage
     const diskUsageList = document.getElementById('diskUsageList');
-    console.log("diskUsage:", data.diskUsage);
+    console.log("diskUsage:", x.resources.diskUsage);
 
-    if (data.diskUsage && data.diskUsage.length > 0) {
+    if (x.resources.diskUsage && x.resources.diskUsage.length > 0) {
         console.log("Processing disk usage");
         let tableHTML = `<table>
                         <tr>
@@ -106,7 +101,7 @@ function updateUI(data) {
                             <th>Mounted On</th>
                         </tr>`;
 
-        tableHTML += data.diskUsage.map(usage => {
+        tableHTML += x.resources.diskUsage.map(usage => {
             const capacityStyle = usage.capacity > 95 ? 'style="color: darkred;"' : '';
             return `<tr>
                     <td>${usage.fileSystem}</td>
@@ -128,7 +123,7 @@ function updateUI(data) {
 
     // Update memory usage
     const freeMemoryList = document.getElementById('freeMemoryList');
-    if (data.freeMemory && data.freeMemory.length > 0) {
+    if (x.resources.freeMemory && x.resources.freeMemory.length > 0) {
         console.log("Processing freeMemory");
         let tableHTML = `<table>
                         <tr>
@@ -137,7 +132,7 @@ function updateUI(data) {
                             <th>Free</th>
                         </tr>`;
 
-        tableHTML += data.freeMemory.map(memory => {
+        tableHTML += x.resources.freeMemory.map(memory => {
             return `<tr>
                     <td>${memory.total} MB</td>
                     <td>${memory.used} MB</td>

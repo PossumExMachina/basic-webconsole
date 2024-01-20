@@ -1,6 +1,6 @@
 package monitoring.docker;
 
-import monitoring.appServer.common.State;
+import monitoring.common.State;
 import monitoring.commands.CommandExec;
 import monitoring.commands.control.CommandStrategy;
 import monitoring.utils.DetectResource;

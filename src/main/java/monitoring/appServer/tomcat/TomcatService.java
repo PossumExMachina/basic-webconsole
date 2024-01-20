@@ -1,9 +1,11 @@
 package monitoring.appServer.tomcat;
 
 import lombok.SneakyThrows;
-import monitoring.appServer.common.State;
+import monitoring.common.State;
+import monitoring.utils.DetectResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -15,6 +17,9 @@ import java.io.InputStreamReader;
 public class TomcatService {
 
     private static final Logger logger = LoggerFactory.getLogger(TomcatService.class);
+
+    @Autowired
+    private DetectResource detectResource;
 
     /**
      * Checks and returns the current state of the Tomcat server.

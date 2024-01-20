@@ -1,7 +1,7 @@
 package monitoring.appServer.application;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import monitoring.appServer.common.State;
+import monitoring.common.State;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
