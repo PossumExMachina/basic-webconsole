@@ -39,21 +39,22 @@ public class DockerControlService implements ControlStrategy {
         try {
                 Process process = Runtime.getRuntime().exec(command);
                 process.waitFor();
+                logger.info("Waiting for the process to finish");
             }
         catch (IOException | InterruptedException e) {
                 logger.error("Error executing command or waiting for completion", e);
                 return State.UNKNOWN;
             }
 
-
         int attempts = 10;
         for (int i = 0; i < attempts; i++) {
             if (container.getState() == State.STOPPED) {
+
                 return State.STOPPED;
             }
             Thread.sleep(1000);
         }
-
+        logger.info("returning state of container: {}", container.getState());
         return  container.getState();
     }
 
@@ -78,7 +79,7 @@ public class DockerControlService implements ControlStrategy {
             process.waitFor();
         }
         catch (IOException | InterruptedException e) {
-            logger.error("Error starting dockeror waiting for completion", e);
+            logger.error("Error starting docker waiting for completion", e);
             return State.UNKNOWN;
         }
 
@@ -90,7 +91,7 @@ public class DockerControlService implements ControlStrategy {
             }
             Thread.sleep(1000);
         }
-
+        logger.info("returning state of container: {}", container.getState());
         return  container.getState();
     }
 }

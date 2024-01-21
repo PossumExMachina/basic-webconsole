@@ -19,9 +19,6 @@ public class URLService {
     @Autowired
     private TomcatWebappScannerService tomcatWebappScannerService;
 
-    public URLService() {
-    }
-
     /**
      Returns healtcheck URL for SpringBoot application.
      @param applName - name of the application for health check probe

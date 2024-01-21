@@ -39,7 +39,7 @@ public final class LinuxCommands implements CommandStrategy {
 
     @Override
     public String getStopTomcatCmd() {
-        return startTomcat;
+        return stopTomcat;
     }
 
     @Override

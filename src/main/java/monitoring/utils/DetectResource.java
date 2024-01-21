@@ -16,7 +16,7 @@ public class DetectResource {
     public boolean resourcePresent(String command, String controlOutput) {
         Process process = null;
         try {
-            logger.info("executong: " + command);
+            logger.info("executing: " + command);
             process = Runtime.getRuntime().exec(command);
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line;

@@ -14,11 +14,18 @@ function fetchData() {
             };
 
             updateUI(combinedData);
+            displayResourcePanels(combinedData.availability);
+
+            setTimeout(fetchData, 5000);
         })
         .catch(error => {
+
+
+            setTimeout(fetchData, 5000);
             console.error('Error fetching data:', error);
         });
 }
+
 
 function updateUI(x) {
     // Update Tomcat status

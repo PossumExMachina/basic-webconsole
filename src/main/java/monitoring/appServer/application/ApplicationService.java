@@ -66,7 +66,7 @@ public class ApplicationService {
      * @return State (either RUNNING / STOPPED / UNKNOWN.
      * @throws IOException If an error occurs while making the HTTP request.
      */
-    private State getApplicationStatus(String appName) throws IOException {
+    State getApplicationStatus(String appName) throws IOException {
         String url = urlService.createURL(appName);
         try {
             logger.info("trying " + url);
