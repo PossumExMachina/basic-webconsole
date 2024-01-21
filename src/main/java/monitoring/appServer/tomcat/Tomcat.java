@@ -1,9 +1,6 @@
 package monitoring.appServer.tomcat;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import monitoring.common.State;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +9,7 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
+@ToString
 public class Tomcat {
    private State state;
 }

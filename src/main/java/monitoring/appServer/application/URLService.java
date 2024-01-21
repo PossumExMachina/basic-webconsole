@@ -15,9 +15,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class URLService {
-
-    @Autowired
-    private TomcatWebappScannerService tomcatWebappScannerService;
+    
 
     /**
      Returns healtcheck URL for SpringBoot application.
@@ -55,7 +53,7 @@ public class URLService {
                     ObjectMapper objectMapper = new ObjectMapper();
                     String responseBody = br.lines().collect(Collectors.joining());
                     if (responseBody.isEmpty()) {
-                        return null;
+                        throw new IOException("Response body is empty");
                     }
                     try {
                         return objectMapper.readTree(responseBody);
