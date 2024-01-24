@@ -89,8 +89,6 @@ public class TomcatControlService implements ControlStrategy {
             logger.error("Error executing command or waiting for completion", e);
             return State.UNKNOWN;
         }
-
-
         int attempts = 10;
         for (int i = 0; i < attempts; i++) {
             if (tomcatService.getTomcatState() == State.RUNNING) {

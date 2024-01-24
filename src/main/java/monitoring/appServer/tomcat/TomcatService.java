@@ -50,7 +50,7 @@ public class TomcatService {
             return State.UNKNOWN;
         }
      finally {
-        process.destroy(); // Ensure the process is destroyed after use
+        process.destroy();
     }
         return State.STOPPED;
     }
