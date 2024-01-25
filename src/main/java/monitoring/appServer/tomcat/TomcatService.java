@@ -26,7 +26,7 @@ public class TomcatService {
      * @return State The state of the Tomcat server - RUNNING, STOPPED, or UNKNOWN.
      */
     @SneakyThrows
-    public State getTomcatState() {
+    public String getTomcatState() {
         String[] command = {"bash", "-c", "ps aux | grep [c]atalina.startup.Bootstrap"};
         Process process = Runtime.getRuntime().exec(command);
         logger.info("Creating process to check Tomcat state");
@@ -38,21 +38,21 @@ public class TomcatService {
             while ((line = reader.readLine()) != null) {
                 if (line.contains("catalina")) {
                     logger.info("Tomcat is running");
-                    return State.RUNNING;
+                    return "RUNNING";
                 }
             }
         } catch (IOException e) {
             logger.error("Could not check Tomcat state", e);
-            return State.UNKNOWN;
+            return "UNKNOWN";
         } catch (InterruptedException e) {
             logger.error("Interrupted while waiting for the process", e);
             Thread.currentThread().interrupt();
-            return State.UNKNOWN;
+            return "UNKNOWN";
         }
      finally {
         process.destroy();
     }
-        return State.STOPPED;
+        return "STOPPED";
     }
 
 }

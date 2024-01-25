@@ -1,5 +1,6 @@
 package monitoring.docker;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import monitoring.common.State;
 @ToString
@@ -8,10 +9,19 @@ import monitoring.common.State;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DockerContainer {
-    private String containerID;
-    private String image;
-    private String created;
-    private State state;
+    @JsonProperty("ID")
+    private String ID;
+
+    @JsonProperty("Image")
+    private String Image;
+
+    @JsonProperty("CreatedAt")
+    private String CreatedAt;
+
+    @JsonProperty("State")
+    private String State;
+
+    @JsonProperty("Names")
     private String name;
 
 }

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Objects;
 
 @Service
 public class DockerControlService implements ControlStrategy {
@@ -22,7 +23,7 @@ public class DockerControlService implements ControlStrategy {
 
     /**
      * Attempts to stop a Docker container based on the provided ResourceContext.
-     *
+     * <p>
      * Retrieves the DockerContainer by its ID and executes a command to stop it. It checks the container's state
      * up to a specified number of attempts to confirm it has stopped. Returns the container's final state.
      *
@@ -31,9 +32,9 @@ public class DockerControlService implements ControlStrategy {
      */
     @SneakyThrows
     @Override
-    public State stopResource(ResourceContext resourceContext) {
+    public String stopResource(ResourceContext resourceContext) {
         DockerContainer container = containerRepository.getContainerByID(resourceContext.getResourceId());
-        String[] command = {"sudo", "docker", "stop", container.getContainerID()};
+        String[] command = {"sudo", "docker", "stop", container.getID()};
 
         logger.info("STOPPING :" + container);
         try {
@@ -43,14 +44,14 @@ public class DockerControlService implements ControlStrategy {
             }
         catch (IOException | InterruptedException e) {
                 logger.error("Error executing command or waiting for completion", e);
-                return State.UNKNOWN;
+                return "UNKNOWN";
             }
 
         int attempts = 10;
         for (int i = 0; i < attempts; i++) {
-            if (container.getState() == State.STOPPED) {
+            if (Objects.equals(container.getState(), "STOPPED")) {
 
-                return State.STOPPED;
+                return "State.STOPPED";
             }
             Thread.sleep(1000);
         }
@@ -61,7 +62,7 @@ public class DockerControlService implements ControlStrategy {
 
     /**
      * Attempts to start a Docker container based on the provided ResourceContext.
-     *
+     * <p>
      * Retrieves the DockerContainer by its ID and executes a command to start it. It checks the container's state
      * up to a specified number of attempts to confirm it has started. Returns the container's final state.
      *
@@ -70,24 +71,24 @@ public class DockerControlService implements ControlStrategy {
      */
     @SneakyThrows
     @Override
-    public State startResource(ResourceContext resourceContext) {
+    public String startResource(ResourceContext resourceContext) {
         DockerContainer container = containerRepository.getContainerByID(resourceContext.getResourceId());
         logger.info("Starting docker");
-        String[] command = {"sudo", "docker", "start", container.getContainerID()};
+        String[] command = {"sudo", "docker", "start", container.getID()};
         try {
             Process process = Runtime.getRuntime().exec(command);
             process.waitFor();
         }
         catch (IOException | InterruptedException e) {
             logger.error("Error starting docker waiting for completion", e);
-            return State.UNKNOWN;
+            return "UNKNOWN";
         }
 
 
         int attempts = 10;
         for (int i = 0; i < attempts; i++) {
-            if (container.getState() == State.RUNNING) {
-                return State.RUNNING;
+            if (Objects.equals(container.getState(), "RUNNING")) {
+                return "RUNNING";
             }
             Thread.sleep(1000);
         }

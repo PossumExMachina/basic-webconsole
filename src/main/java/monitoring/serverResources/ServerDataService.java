@@ -32,7 +32,7 @@ public class ServerDataService {
     public AllServerDataDTO getApplicationStatusResource() throws IOException {
         List<DiskUsage> diskUsage = diskService.getDiskUsage();
         List<Memory> freeMemory = memoryService.getFreeMemory();
-        List<DockerContainer> dockerContainers = dockerContainerService.getDockerContainers();
+        List<DockerContainer> dockerContainers = dockerContainerService.parseDockerJson();
         return new AllServerDataDTO(diskUsage, freeMemory, dockerContainers);
     }
 

@@ -26,8 +26,8 @@ public class ContainerRepository {
      * @throws IOException If an I/O error occurs during the process.
      */
     public DockerContainer getContainerByID(String id) throws IOException {
-        return dockerContainerService.getDockerContainers().stream()
-                .filter(container -> container.getContainerID().equals(id))
+        return dockerContainerService.parseDockerJson().stream()
+                .filter(container -> container.getID().equals(id))
                 .findFirst()
                 .orElse(null);
     }

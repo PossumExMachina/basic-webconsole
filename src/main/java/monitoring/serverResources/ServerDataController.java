@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.naming.directory.InvalidAttributeValueException;
 import java.io.IOException;
+import java.util.Objects;
 
 @RestController
 public class ServerDataController {
@@ -43,9 +44,9 @@ public class ServerDataController {
     public ResponseEntity<?> startResource(@PathVariable String resourceType) throws IOException, InvalidAttributeValueException {
         ControlStrategy strategy = controlStrategyFactory.getStrategy(resourceType);
         resourceContext.setResourceId(resourceType);
-        State state = strategy.startResource(resourceContext);
+        String state = strategy.startResource(resourceContext);
 
-        if (state == State.RUNNING) {
+        if (Objects.equals(state, "RUNNING")) {
             return ResponseEntity.ok(resourceType + " started successfully.");
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -57,9 +58,9 @@ public class ServerDataController {
     public ResponseEntity<?> stopResource(@PathVariable String resourceType) throws IOException, InvalidAttributeValueException {
         ControlStrategy strategy = controlStrategyFactory.getStrategy(resourceType);
         resourceContext.setResourceId(resourceType);
-        State state = strategy.stopResource(resourceContext);
+        String state = strategy.stopResource(resourceContext);
 
-        if (state == State.STOPPED) {
+        if (Objects.equals(state, "STOPPED")) {
             return ResponseEntity.ok(resourceType + " stopped successfully.");
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

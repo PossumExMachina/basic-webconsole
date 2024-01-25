@@ -1,5 +1,8 @@
 package monitoring.docker;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import monitoring.common.State;
 import monitoring.commands.CommandExec;
 import monitoring.commands.control.CommandStrategy;
@@ -38,69 +41,25 @@ public class DockerContainerService {
      */
     public List<String> getContainerID() throws IOException {
         List<String> IDlist = new ArrayList<>();
-        for (DockerContainer container : getDockerContainers()){
-            IDlist.add( container.getContainerID());
+        for (DockerContainer container : parseDockerJson()){
+            IDlist.add( container.getID());
         }
         return IDlist;
     }
 
 
-    /**
-     * Retrieves a list of Docker containers present on the system.
-     *
-     * First, checks if Docker is installed on the system. If not, it throws a FileNotFoundException.
-     * Then, executes a command to list Docker containers and parses the output into a list of DockerContainer objects.
-     * If the command execution does not produce any output, an IOException is thrown.
-     *
-     * @return List<DockerContainer> A list of DockerContainer objects representing the containers on the system.
-     * @throws FileNotFoundException If Docker is not installed on the system.
-     * @throws IOException If an I/O error occurs or if the command to list containers fails to produce output.
-     */
-    public List<DockerContainer> getDockerContainers() throws IOException {
-        if (!detectResource.resourcePresent(commandStrategy.getDockerInstalledCmd(), commandStrategy.getDockeControlOutput())) {
-            logger.info("Docker is not present on the system");
+    public List<DockerContainer> parseDockerJson() throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        List<String> jsonStrings = commandExec.executeCommand(commandStrategy.getListContainersCmd());
+        String jsonArrayString = "[" + String.join(",", jsonStrings) + "]";
+
+        try {
+            return mapper.readValue(jsonArrayString, new TypeReference<List<DockerContainer>>() {});
+        } catch (Exception e) {
+            logger.error("Error parsing docker from json ", e);
+            return null;
         }
-
-        List<String> outputLines = commandExec.executeCommand(commandStrategy.getListContainersCmd());
-        if (outputLines == null || outputLines.isEmpty()) {
-            throw new IOException("Failed to list containers: No output from command");
-        }
-
-        return outputLines.stream()
-                .skip(1)
-                .map(this::parseLine)
-                .collect(Collectors.toList());
     }
 
-
-
-    /**
-     * Parses a line of output representing a Docker container and constructs a DockerContainer object.
-     *
-     * The method expects a formatted string containing Docker container details and splits it into parts.
-     * It then extracts and constructs the necessary fields to create a DockerContainer object.
-     *
-     * @param line A string representing a single line of output for a Docker container.
-     * @return DockerContainer An object representing the parsed Docker container.
-     */
-    private DockerContainer parseLine(String line) {
-        String[] parts = line.split("\\s+");
-        String containerID = parts[0];
-        String image = parts[1];
-        String created = parts[3] + " " + parts[4] + " " + parts[5];
-        State status = parseStatus(parts[8]);
-        String names = parts[parts.length - 1];
-
-        return new DockerContainer(containerID, image, created, status, names);
-    }
-
-    /**
-     * Parses a string representing the status of a Docker container and returns the corresponding State enum.
-     *
-     * @param statusString The string representation of a Docker container's status.
-     * @return State The parsed state of the Docker container.
-     */
-    private State parseStatus(String statusString) {
-        return State.valueOf(statusString.toUpperCase());
-    }
 }

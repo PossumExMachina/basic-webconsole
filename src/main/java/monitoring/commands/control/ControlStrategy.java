@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public interface ControlStrategy {
-    State stopResource(ResourceContext resourceContext);
-    State startResource(ResourceContext resourceContext);
+    String stopResource(ResourceContext resourceContext);
+    String startResource(ResourceContext resourceContext);
 
 }

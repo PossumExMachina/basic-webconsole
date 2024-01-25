@@ -3,12 +3,14 @@ function fetchData() {
 
     Promise.all([
         fetch('/resources').then(response => response.json()),
+        fetch('/dockerInfo').then(response=> response.json()),
         fetch('/tomcatInfo').then(response => response.json()),
         fetch('/resources/availability').then(response => response.json())
     ])
-        .then(([resourcesData, tomcatInfo, availability]) => {
+        .then(([resourcesData, dockerInfo, tomcatInfo, availability]) => {
             const combinedData = {
                 resources: resourcesData,
+                docker: dockerInfo,
                 tomcat: tomcatInfo,
                 availability: availability
             };
@@ -37,9 +39,8 @@ function updateUI(x) {
     }
 
 
-    // Update running applications list
     const applicationsList = document.getElementById('runningAppsList');
-    console.log("Applications:", x.applications);
+    console.log("Applications:", x.tomcat.applications);
     if (x.tomcat.applications && x.tomcat.applications.length > 0) {
         applicationsList.innerHTML = x.tomcat.applications
             .map(app => {
@@ -52,9 +53,9 @@ function updateUI(x) {
 
 
     const dockerContainerList = document.getElementById('dockerContainerList');
-    console.log("dockerContainers:", x.dockerContainers);
+    console.log("dockerContainers:", x.docker.dockerContainers);
 
-    if (x.resources.dockerContainers && x.resources.dockerContainers.length > 0) {
+    if (x.docker.dockerContainers && x.docker.dockerContainers.length > 0) {
         console.log("Processing docker containers");
 
         let tableHTML = `<table>
@@ -67,7 +68,7 @@ function updateUI(x) {
                         <th>Action</th>
                     </tr>`;
 
-        tableHTML += x.resources.dockerContainers
+        tableHTML += x.docker.dockerContainers
             .map(container => {
                 const statusStyle = container.state === 'EXITED' ? 'style="color: darkred;"' : 'style="color: green;"';
                 return `<tr>

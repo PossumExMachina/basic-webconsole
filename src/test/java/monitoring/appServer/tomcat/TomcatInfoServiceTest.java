@@ -41,7 +41,7 @@ public class TomcatInfoServiceTest {
 
         List<Application> expectedApplications = Arrays.asList(application1, application2);
 
-        when(mockTomcatService.getTomcatState()).thenReturn(expectedState);
+        when(mockTomcatService.getTomcatState()).thenReturn(String.valueOf(expectedState));
         when(mockApplicationService.getApplications()).thenReturn(expectedApplications);
         TomcatDTO result = tomcatInfoService.getTomcatStatus();
 

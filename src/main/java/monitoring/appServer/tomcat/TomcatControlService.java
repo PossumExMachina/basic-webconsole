@@ -2,7 +2,6 @@ package monitoring.appServer.tomcat;
 
 import lombok.SneakyThrows;
 import monitoring.common.ResourceContext;
-import monitoring.common.State;
 import monitoring.commands.control.ControlStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Objects;
+
 @Service
 public class TomcatControlService implements ControlStrategy {
 
@@ -35,7 +36,7 @@ public class TomcatControlService implements ControlStrategy {
      */
     @SneakyThrows
     @Override
-    public State stopResource(ResourceContext resourceContext) {
+    public String stopResource(ResourceContext resourceContext) {
         String[] command = {"bash", "-c", "sudo /opt/tomcat/apache-tomcat-10.1.17/bin/shutdown.sh"};
         try {
             Process process = Runtime.getRuntime().exec(command);
@@ -44,15 +45,15 @@ public class TomcatControlService implements ControlStrategy {
         }
         catch (IOException | InterruptedException e) {
             logger.error("Error executing command or waiting for completion", e);
-            return State.UNKNOWN;
+            return "UNKNOWN";
         }
 
 
         int attempts = 10;
         for (int i = 0; i < attempts; i++) {
-            if (tomcatService.getTomcatState() == State.STOPPED) {
+            if (Objects.equals(tomcatService.getTomcatState(), "STOPPED")) {
                 logger.info("Successfully stopped tomcat");
-                return State.STOPPED;
+                return "STOPPED";
             }
             Thread.sleep(1000);
         }
@@ -65,7 +66,7 @@ public class TomcatControlService implements ControlStrategy {
 
     /**
      * Attempts to start a Tomcat server resource.
-     *
+     * <p>
      * This method executes a bash command to start the Tomcat server.
      * It waits for the command to complete and checks the state of the Tomcat server in intervals.
      * If the server starts successfully, the state 'RUNNING' is returned.
@@ -78,7 +79,7 @@ public class TomcatControlService implements ControlStrategy {
      */
     @SneakyThrows
     @Override
-    public State startResource(ResourceContext resourceContext) {
+    public String startResource(ResourceContext resourceContext) {
         String[] command = {"bash", "-c", "sudo /opt/tomcat/apache-tomcat-10.1.17/bin/startup.sh"};
         try {
             Process process = Runtime.getRuntime().exec(command);
@@ -87,13 +88,13 @@ public class TomcatControlService implements ControlStrategy {
         }
         catch (IOException | InterruptedException e) {
             logger.error("Error executing command or waiting for completion", e);
-            return State.UNKNOWN;
+            return "UNKNOWN";
         }
         int attempts = 10;
         for (int i = 0; i < attempts; i++) {
-            if (tomcatService.getTomcatState() == State.RUNNING) {
+            if (Objects.equals(tomcatService.getTomcatState(), "RUNNING")) {
                 logger.info("Tomcat is running");
-                return State.RUNNING;
+                return "RUNNING";
             }
             Thread.sleep(1000);
         }

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 public final class macOSCommands implements CommandStrategy {
     public static final String dockerExists = "docker -v";
     public static final String dockerControlOutput = "Docker version";
-    public static final String listContainers = """ 
+ /*   public static final String listContainers = """
             docker container ls -a --format '{{json .}}' | while read -r line; do
                 containerID=$(echo "$line" | jq -r '.ID')
                 image=$(echo "$line" | jq -r '.Image')
@@ -21,7 +21,11 @@ public final class macOSCommands implements CommandStrategy {
                 echo "Names: $names"
                 echo "-------------------------------------"
             done
-            """;
+            """;*/
+ public static final String listContainers =
+    """
+    docker container ls -a --format '{{json .}}' 
+    """;
     public static final String tomcatExists = "ls " + System.getenv("CATALINA_HOME");
     public static final String tomcatControlOutput = "webapps";
     public static final String startTomcat = "sudo systemctl start tomcat";
