@@ -29,7 +29,7 @@ public class DetectResource {
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.error("Could not execute checking command " + command);
         } finally {
             if (process != null) {
                 process.destroy();

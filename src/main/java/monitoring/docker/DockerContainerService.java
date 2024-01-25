@@ -58,7 +58,7 @@ public class DockerContainerService {
      */
     public List<DockerContainer> getDockerContainers() throws IOException {
         if (!detectResource.resourcePresent(commandStrategy.getDockerInstalledCmd(), commandStrategy.getDockeControlOutput())) {
-            throw new FileNotFoundException("Docker is not present on the system");
+            logger.info("Docker is not present on the system");
         }
 
         List<String> outputLines = commandExec.executeCommand(commandStrategy.getListContainersCmd());
@@ -85,12 +85,10 @@ public class DockerContainerService {
      */
     private DockerContainer parseLine(String line) {
         String[] parts = line.split("\\s+");
-        StringBuilder createdBuilder = new StringBuilder();
         String containerID = parts[0];
         String image = parts[1];
-        createdBuilder.append(parts[3]).append(" ").append(parts[4]).append(" ").append(parts[5]);
-        String created = createdBuilder.toString();
-        State status = parseStatus(parts[6]);
+        String created = parts[3] + " " + parts[4] + " " + parts[5];
+        State status = parseStatus(parts[8]);
         String names = parts[parts.length - 1];
 
         return new DockerContainer(containerID, image, created, status, names);
