@@ -53,43 +53,38 @@ function updateUI(x) {
 
 
     const dockerContainerList = document.getElementById('dockerContainerList');
-    console.log("dockerContainers:", x.docker.dockerContainers);
+    console.log("Docker info:", x.docker);
 
-    if (x.docker.dockerContainers && x.docker.dockerContainers.length > 0) {
-        console.log("Processing docker containers");
-
+    if (x.docker && x.docker.length > 0) {
         let tableHTML = `<table>
-                    <tr>
-                        <th>Container ID</th>
-                        <th>Image</th>
-                        <th>Created</th>
-                        <th>Status</th>
-                        <th>Name</th>
-                        <th>Action</th>
-                    </tr>`;
+                        <tr>
+                            <th>Container ID</th>
+                            <th>Image</th>
+                            <th>Created</th>
+                            <th>Status</th>
+                            <th>Name</th>
+                            <th>Action</th>
+                        </tr>`;
 
-        tableHTML += x.docker.dockerContainers
-            .map(container => {
-                const statusStyle = container.state === 'EXITED' ? 'style="color: darkred;"' : 'style="color: green;"';
-                return `<tr>
-                <td>${container.containerID}</td>
-                <td>${container.image}</td>
-                <td>${container.created}</td>
-                <td ${statusStyle}>${container.state}</td>
-                <td>${container.name}</td>
-                <td>
-                <button onclick="startContainer('${container.containerID}')">Start</button>
-                <button onclick="stopContainer('${container.containerID}')">Stop</button>
-                <button onclick="removeContainer('${container.containerID}')">Remove</button>
-                </td>
-            </tr>`;
-            })
-            .join('');
+        tableHTML += x.docker.map(container => {
+            const statusStyle = container.State === 'exited' ? 'style="color: darkred;"' : 'style="color: green;"';
+            return `<tr>
+            <td>${container.ID}</td>
+            <td>${container.Image}</td>
+            <td>${container.CreatedAt}</td>
+            <td ${statusStyle}>${container.State}</td>
+            <td>${container.Names}</td>
+            <td>
+            <button onclick="startContainer('${container.ID}')">Start</button>
+            <button onclick="stopContainer('${container.ID}')">Stop</button>
+            <button onclick="removeContainer('${container.ID}')">Remove</button>
+            </td>
+        </tr>`;
+        }).join('');
 
         tableHTML += '</table>';
         dockerContainerList.innerHTML = tableHTML;
     } else {
-        console.log("No docker containers available");
         dockerContainerList.innerHTML = '<p>No docker data available</p>';
     }
 

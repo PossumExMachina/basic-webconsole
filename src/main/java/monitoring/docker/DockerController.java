@@ -26,7 +26,6 @@ public class DockerController {
         try {
             jsonResponse = mapper.writeValueAsString(containers);
         } catch (Exception e) {
-            // Handle or log the error
             jsonResponse = "{\"error\": \"Error converting to JSON.\"}";
         }
 
