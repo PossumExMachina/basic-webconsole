@@ -48,7 +48,7 @@ If Apache Tomcat is installed:
 ### 3. Run the jar file
 Go to <project_folder>/target and run `java -jar monitoring-console.jar`
 
-# Open the console in your browser
+### Open the console in your browser
 Type localhost:8085/overview.html into your browser. The console should be running. 
 
 
