@@ -37,16 +37,16 @@ Navigate to the project's download page and download the project files to your U
 
 If Apache Tomcat is installed:
 #### Add CATALINA_HOME to your environment variables
-echo 'export CATALINA_HOME="/path/to/tomcat"' >> ~/.bashrc
+`echo 'export CATALINA_HOME="/path/to/tomcat"' >> ~/.bashrc`
 
 #### Apply the changes
-source ~/.bashrc
+`source ~/.bashrc`
 
 #### Verify the environment variable
-echo $CATALINA_HOME
+`echo $CATALINA_HOME`
 
 ### 3. Run the jar file
-Go to <project_folder>/target and run java -jar monitoring-console.jar
+Go to <project_folder>/target and run `java -jar monitoring-console.jar`
 
 # Open the console in your browser
 Type localhost:8085/overview.html into your browser. The console should be running. 
