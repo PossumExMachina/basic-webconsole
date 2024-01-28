@@ -1,7 +1,6 @@
 package monitoring.commands.control;
 
 import monitoring.common.ResourceContext;
-import monitoring.common.State;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -5,17 +5,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 
 @RestController
 public class TomcatController {
-
 
     @Autowired
     private TomcatInfoService tomcatInfoService;
 
     @GetMapping("/tomcatInfo")
-    public ResponseEntity<TomcatDTO> getResources() throws IOException {
+    public ResponseEntity<TomcatDTO> getResources(){
         TomcatDTO resourceData = tomcatInfoService.getTomcatStatus();
         return ResponseEntity.ok(resourceData);
     }

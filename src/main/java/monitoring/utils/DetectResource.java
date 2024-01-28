@@ -3,7 +3,6 @@ package monitoring.utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -17,7 +16,7 @@ public class DetectResource {
         Process process = null;
         try {
             logger.info("executing: " + command);
-            process = Runtime.getRuntime().exec(command);
+            process = Runtime.getRuntime().exec(command); //TODO: Rewrite this (exxec is deprecated)
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line;
 

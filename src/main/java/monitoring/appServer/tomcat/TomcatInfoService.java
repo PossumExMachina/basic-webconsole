@@ -15,7 +15,6 @@ public class TomcatInfoService {
     @Autowired
     ApplicationService applicationService;
 
-
     public TomcatDTO getTomcatStatus() {
         String tomcatState = tomcatService.getTomcatState();
         List<Application> applications = applicationService.getApplications();

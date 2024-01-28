@@ -1,8 +1,6 @@
 package monitoring.docker;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import monitoring.appServer.tomcat.TomcatDTO;
-import monitoring.appServer.tomcat.TomcatInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

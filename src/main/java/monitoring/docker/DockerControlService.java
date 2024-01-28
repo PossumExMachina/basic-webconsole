@@ -2,7 +2,6 @@ package monitoring.docker;
 
 import lombok.SneakyThrows;
 import monitoring.common.ResourceContext;
-import monitoring.common.State;
 import monitoring.commands.control.ControlStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

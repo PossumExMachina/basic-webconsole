@@ -1,7 +1,6 @@
 package monitoring.serverResources;
 
 import lombok.Getter;
-import monitoring.appServer.application.Application;
 import monitoring.docker.DockerContainer;
 import monitoring.serverResources.disk.DiskUsage;
 import monitoring.serverResources.memory.Memory;

@@ -22,8 +22,7 @@ public class URLService {
      @return actuator/health url (String)
      */
     public String createURL(String applName) {
-        String url = "http://localhost:8080/" + applName + "/actuator/health";
-        return url;
+        return "http://localhost:8080/" + applName + "/actuator/health";
     }
 
     /**
@@ -65,7 +64,7 @@ public class URLService {
      * @throws IOException If there is an error in creating the HttpURLConnection.
      */
     HttpURLConnection createHttpURLConnection(String urlString) throws IOException {
-        URL url = new URL(urlString);
+        URL url = new URL(urlString); //TODO: Rewrite this (deprecated)
         return (HttpURLConnection) url.openConnection();
     }
 }

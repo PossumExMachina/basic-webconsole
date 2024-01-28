@@ -1,3 +1,4 @@
+/*
 package monitoring.utils;
 
 
@@ -43,3 +44,4 @@ public class SeedData implements CommandLineRunner {
 
     }
 }
+*/
