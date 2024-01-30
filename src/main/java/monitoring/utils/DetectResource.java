@@ -16,7 +16,7 @@ public class DetectResource {
         Process process = null;
         try {
             logger.info("executing: " + command);
-            process = Runtime.getRuntime().exec(command); //TODO: Rewrite this (exxec is deprecated)
+            process = Runtime.getRuntime().exec(command); //TODO: Rewrite this (exec is deprecated)
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line;
 
