@@ -82,8 +82,6 @@ public class DockerControlService implements ControlStrategy {
             logger.error("Error starting docker waiting for completion", e);
             return "UNKNOWN";
         }
-
-
         int attempts = 10;
         for (int i = 0; i < attempts; i++) {
             if (Objects.equals(container.getState(), "RUNNING")) {
@@ -93,5 +91,28 @@ public class DockerControlService implements ControlStrategy {
         }
         logger.info("returning state of container: {}", container.getState());
         return  container.getState();
+    }
+
+
+    @SneakyThrows
+    public void deleteContainer(ResourceContext resourceContext) {
+        DockerContainer container = containerRepository.getContainerByID(resourceContext.getResourceId());
+        logger.info("Deleting container");
+        String[] command = {"sudo", "docker", "rm -f", container.getID()};
+        try {
+            Process process = Runtime.getRuntime().exec(command);
+            process.waitFor();
+        }
+        catch (IOException | InterruptedException e) {
+            logger.error("Error starting docker waiting for completion", e);
+        }
+        int attempts = 10;
+        for (int i = 0; i < attempts; i++) {
+            if(container.getID().isEmpty()) {
+                logger.info("container was successfully deleted");
+            }
+            Thread.sleep(1000);
+        }
+        logger.info("returning state of container: {}", container.getState());
     }
 }
