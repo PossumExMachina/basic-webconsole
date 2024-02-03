@@ -7,9 +7,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class DockerControlService implements ControlStrategy {
@@ -32,30 +34,30 @@ public class DockerControlService implements ControlStrategy {
     @SneakyThrows
     @Override
     public String stopResource(ResourceContext resourceContext) {
-        DockerContainer container = containerRepository.getContainerByID(resourceContext.getResourceId());
-        String[] command = {"sudo", "docker", "stop", container.getID()};
+        Optional<DockerContainer> optionalContainer = containerRepository.getContainerByID(resourceContext.getResourceId());
+        if (optionalContainer.isPresent()) {
+            DockerContainer foundContainer = optionalContainer.get();
 
-        logger.info("STOPPING :" + container);
-        try {
+            logger.info("Stopping docker");
+            String[] command = {"sudo", "docker", "stop", foundContainer.getID()};
+            try {
                 Process process = Runtime.getRuntime().exec(command);
                 process.waitFor();
-                logger.info("Waiting for the process to finish");
-            }
-        catch (IOException | InterruptedException e) {
-                logger.error("Error executing command or waiting for completion", e);
+            } catch (IOException | InterruptedException e) {
+                logger.error("Error stopping docker waiting for completion", e);
                 return "UNKNOWN";
             }
-
-        int attempts = 10;
-        for (int i = 0; i < attempts; i++) {
-            if (Objects.equals(container.getState(), "STOPPED")) {
-
-                return "State.STOPPED";
+            int attempts = 10;
+            for (int i = 0; i < attempts; i++) {
+                if (Objects.equals(foundContainer.getState(), "STOPPED")) {
+                    return "STOPPED";
+                }
+                Thread.sleep(1000);
             }
-            Thread.sleep(1000);
+            logger.info("returning state of container: {}", foundContainer.getState());
+            return foundContainer.getState();
         }
-        logger.info("returning state of container: {}", container.getState());
-        return  container.getState();
+        else throw new NotFoundException("Container with that id was not found");
     }
 
 
@@ -71,48 +73,54 @@ public class DockerControlService implements ControlStrategy {
     @SneakyThrows
     @Override
     public String startResource(ResourceContext resourceContext) {
-        DockerContainer container = containerRepository.getContainerByID(resourceContext.getResourceId());
-        logger.info("Starting docker");
-        String[] command = {"sudo", "docker", "start", container.getID()};
-        try {
-            Process process = Runtime.getRuntime().exec(command);
-            process.waitFor();
-        }
-        catch (IOException | InterruptedException e) {
-            logger.error("Error starting docker waiting for completion", e);
-            return "UNKNOWN";
-        }
-        int attempts = 10;
-        for (int i = 0; i < attempts; i++) {
-            if (Objects.equals(container.getState(), "RUNNING")) {
-                return "RUNNING";
+        Optional<DockerContainer> optionalContainer = containerRepository.getContainerByID(resourceContext.getResourceId());
+        if (optionalContainer.isPresent()) {
+            DockerContainer foundContainer = optionalContainer.get();
+
+            logger.info("Starting docker");
+            String[] command = {"sudo", "docker", "start", foundContainer.getID()};
+            try {
+                Process process = Runtime.getRuntime().exec(command);
+                process.waitFor();
+            } catch (IOException | InterruptedException e) {
+                logger.error("Error starting docker waiting for completion", e);
+                return "UNKNOWN";
             }
-            Thread.sleep(1000);
+            int attempts = 10;
+            for (int i = 0; i < attempts; i++) {
+                if (Objects.equals(foundContainer.getState(), "RUNNING")) {
+                    return "RUNNING";
+                }
+                Thread.sleep(1000);
+            }
+            logger.info("returning state of container: {}", foundContainer.getState());
+            return foundContainer.getState();
         }
-        logger.info("returning state of container: {}", container.getState());
-        return  container.getState();
+        else throw new NotFoundException("Container with that id was not found");
     }
 
 
     @SneakyThrows
-    public void deleteContainer(ResourceContext resourceContext) {
-        DockerContainer container = containerRepository.getContainerByID(resourceContext.getResourceId());
-        logger.info("Deleting container");
-        String[] command = {"sudo", "docker", "rm -f", container.getID()};
-        try {
-            Process process = Runtime.getRuntime().exec(command);
-            process.waitFor();
-        }
-        catch (IOException | InterruptedException e) {
-            logger.error("Error starting docker waiting for completion", e);
-        }
-        int attempts = 10;
-        for (int i = 0; i < attempts; i++) {
-            if(container.getID().isEmpty()) {
-                logger.info("container was successfully deleted");
+    public void deleteContainer(String id) {
+        Optional<DockerContainer> optionalContainer = containerRepository.getContainerByID(id);
+        if (optionalContainer.isPresent()) {
+            DockerContainer foundContainer = optionalContainer.get();
+            logger.info("Deleting container");
+            String[] command = {"sudo", "docker", "rm -f", foundContainer.getID()};
+            try {
+                Process process = Runtime.getRuntime().exec(command);
+                process.waitFor();
+            } catch (IOException | InterruptedException e) {
+                logger.error("Error deleting docker container", e);
             }
-            Thread.sleep(1000);
+            int attempts = 10;
+            for (int i = 0; i < attempts; i++) {
+                if (foundContainer.getID().isEmpty()) {
+                    logger.info("container was successfully deleted");
+                }
+                Thread.sleep(1000);
+            }
+            logger.info("Could not delete selected container");
         }
-        logger.info("returning state of container: {}", container.getState());
     }
 }
