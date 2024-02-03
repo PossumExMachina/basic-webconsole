@@ -16,6 +16,7 @@ Web console written in Java, that allows you to monitor your disk usage, memory 
 ## Technologies Used
 - Java Spring Boot for backend
 - Basic Javascript and HTML for frontend
+- H2 in-memory database
 - Maven
 
 # Project Installation Guide
