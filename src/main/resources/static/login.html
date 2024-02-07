@@ -1,22 +1,26 @@
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="en">
 <head>
-    <title>Log in page</title>
+    <link type="text/css" rel="stylesheet" href="./index.css" />
+    <title>Console</title>
 </head>
 <body>
-<form method="post" action="/login">
-    <div class="col-md-3">
-        <label for="username" class="form-label text-white">Username</label>
-        <input type="text" id="username" name="username" class="form-control" required>
-    </div>
-    <div class="col-md-3">
-        <label for="password" class="form-label text-white">Password</label>
-        <input type="password" id="password" name="password" class="form-control">
-    </div>
-    <div class="col-md-1 align-self-end">
-        <button type="submit" class="btn btn-primary">Log in</button>
-    </div>
+<h1>Login</h1>
+<form method="POST" action="/login">
+    <table>
+        <tr>
+            <td><label for="username">Username:</label></td>
+            <td><input type="text" id="username" name="username" class="red-border" /></td>
+        </tr>
+        <tr>
+            <td><label for="password">Password:</label></td>
+            <td><input type="password" name="password" id="password" class="red-border" /></td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td><input type="submit" value="Login" class="red-border" /></td>
+        </tr>
+    </table>
 </form>
-
 </body>
 </html>
