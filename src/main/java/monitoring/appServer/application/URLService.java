@@ -67,4 +67,5 @@ public class URLService {
         URL url = new URL(urlString); //TODO: Rewrite this (deprecated)
         return (HttpURLConnection) url.openConnection();
     }
+
 }

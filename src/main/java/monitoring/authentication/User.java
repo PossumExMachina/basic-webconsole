@@ -1,4 +1,4 @@
-/*
+
 package monitoring.authentication;
 
 import jakarta.persistence.*;
@@ -23,4 +23,4 @@ public class User {
     private Role role;
 
 }
-*/
+
