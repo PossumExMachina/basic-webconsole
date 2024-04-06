@@ -1,0 +1,77 @@
+
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #0A0F1B;
+  color: #C5D4E0;
+  overflow-x: hidden;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+body {
+  background: linear-gradient(270deg, #0f0c29, #302b63, #24243e, #0f0c29);
+  background-size: 800% 800%;
+  animation: gradientBG 30s ease infinite;
+}
+
+.usage-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 10px;
+}
+
+.table-container {
+  background: rgba(28, 29, 46, 0.85);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.usage-table {
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+  margin-top: 5px;
+  table-layout: auto;
+}
+
+
+
+.usage-table th, .usage-table td {
+  padding: 4px;
+  text-align: left;
+  font-size: 0.35rem;
+  line-height: 0.4;
+}
+
+.usage-table th {
+  color: white;
+}
+
+.usage-table td {
+  color: white;
+}
+
+.usage-table tr:hover {
+  background-color: #1d2733;
+}
+
+h2 {
+  color: #8AB4F8;
+  margin: 0 0 10px 0;
+  text-align: center;
+}
+@media screen and (min-width: 1200px) {
+  .usage-table th, .usage-table td {
+    padding: 20px;
+    font-size: 1.2rem;
+  }}

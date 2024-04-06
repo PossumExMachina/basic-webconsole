@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+<div class="usage-container">
+  <div class="table-container">
+    <h2>Disk Usage</h2>
+    <table class="usage-table" *ngIf="diskUsage.length > 0">
+      <thead>
+      <tr>
+        <th>File System</th>
+        <th>Size</th>
+        <th>Used</th>
+        <th>Available</th>
+        <th>Capacity</th>
+        <th>Mounted On</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let disk of diskUsage">
+        <td>{{disk.fileSystem}}</td>
+        <td>{{disk.fileSystemSize}}</td>
+        <td>{{disk.used}}</td>
+        <td>{{disk.availabl}}</td>
+        <td>{{disk.capacity}}</td>
+        <td>{{disk.mountedOn}}</td>
+      </tr>
+      </tbody>
+    </table>
+
+    <h3 *ngIf="diskUsage.length === 0">No disk data available :(</h3>
+  </div>
+  <div class="table-container">
+    <h2>Memory Usage</h2>
+    <table class="usage-table">
+      <thead>
+      <tr>
+        <th>Total</th>
+        <th>Used</th>
+        <th>Free</th>
+        <th>Percent</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>1TB</td>
+        <td>700GB</td>
+        <td>300GB</td>
+        <td>70%</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>

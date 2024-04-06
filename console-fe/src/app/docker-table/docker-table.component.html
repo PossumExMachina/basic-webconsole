@@ -1,0 +1,31 @@
+<script>
+  if (global === undefined) {
+    var global = window;
+  }
+</script>
+<div *ngIf="dockerContainers.length > 0">
+  <table>
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Image</th>
+      <th>Created At</th>
+      <th>State</th>
+      <th>Names</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let container of dockerContainers">
+      <td>{{ container.ID }}</td>
+      <td>{{ container.Image }}</td>
+      <td>{{ container.CreatedAt }}</td>
+      <td>{{ container.State }}</td>
+      <td>{{ container.Names }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<div class="no-data" *ngIf="dockerContainers.length === 0">
+  <h1>Docker</h1>
+  <h2>No docker data available :(</h2>
+</div>
