@@ -9,14 +9,12 @@ import java.util.List;
 @Getter
 public class AllServerDataDTO {
 
-    private final List<DockerContainer> dockerContainers;
     private final List<DiskUsage> diskUsage;
     private final List<Memory> freeMemory;
 
     public AllServerDataDTO(List<DiskUsage> diskUsage, List<Memory> freeMemory, List<DockerContainer> dockerContainers) {
         this.diskUsage = diskUsage;
         this.freeMemory = freeMemory;
-        this.dockerContainers = dockerContainers;
     }
 
 

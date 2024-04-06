@@ -35,7 +35,6 @@ public class SeedData implements CommandLineRunner {
         if (userService.findByUsername(adminUser.getUsername()).isEmpty()){
             userService.save(adminUser);
             logger.info("Creating admin user");
-
            }
 
         System.out.println("admin user created: " + userService.findByUsername("admin").isPresent());

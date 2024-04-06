@@ -177,17 +177,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 
-    function startContainer(containerID) {
-        sendContainerCommand(containerID, 'start');
-    }
-
-    function stopContainer(containerID) {
-        sendContainerCommand(containerID, 'stop');
-    }
-
-    function removeContainer(containerID) {
-        sendContainerCommand(containerID, 'remove');
-    }
 
     function sendContainerCommand(containerID, action) {
         fetch(`/${containerID}/${action}/`, { method: 'POST' })

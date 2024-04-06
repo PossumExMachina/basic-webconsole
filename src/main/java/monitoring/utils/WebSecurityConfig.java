@@ -1,11 +1,14 @@
 
 package monitoring.utils;
 
-import monitoring.authentication.UserController;
+import jakarta.validation.constraints.AssertFalse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -24,6 +27,7 @@ import javax.sql.DataSource;
 public class WebSecurityConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(WebSecurityConfig.class);
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -33,9 +37,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         logger.info("inisde filter chain");
         http.authorizeHttpRequests(configuration -> configuration
-                .requestMatchers("/login.html","/login", "*.css", "*.js").permitAll()
-               // .requestMatchers("/api/**").permitAll()
-               .anyRequest().authenticated()
+                .anyRequest().permitAll()
         );
         http.csrf(AbstractHttpConfigurer::disable);
         http.cors(AbstractHttpConfigurer::disable);

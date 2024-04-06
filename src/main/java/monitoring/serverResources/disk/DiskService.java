@@ -1,12 +1,23 @@
 package monitoring.serverResources.disk;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import monitoring.commands.CommandExec;
 import monitoring.commands.control.CommandStrategy;
+import monitoring.docker.DockerContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,6 +25,15 @@ import java.util.stream.Collectors;
 public class DiskService {
 
     private static final Logger logger = LoggerFactory.getLogger(DiskService.class);
+
+    private static final String DISK_CACHE_FILE_PATH = "disk_cache.json";
+
+    private final SimpMessagingTemplate messagingTemplate;
+
+    public DiskService(SimpMessagingTemplate messagingTemplate) {
+        this.messagingTemplate = messagingTemplate;
+    }
+
 
     @Autowired
     private CommandExec commandExec;
@@ -66,4 +86,52 @@ public class DiskService {
 
         return new DiskUsage(fileSystem, fileSystemSize, used, available, capacity, iused, ifree, mountedOn);
     }
+
+    private void saveStateToFile(List<DiskUsage> disk, String filePath) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            logger.info("WRITING NEW VERSION TO " + filePath);
+            mapper.writeValue(new File(filePath), disk);
+        } catch (IOException e) {
+            logger.error("Failed to save disk state to file", e);
+        }
+    }
+
+
+    private List<DiskUsage> loadStateFromFile(String filePath) {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        try {
+            return mapper.readValue(new File(filePath), new TypeReference<List<DiskUsage>>() {});
+        } catch (IOException e) {
+            logger.error("Failed to load Disk state from file", e);
+            return new ArrayList<>();
+        }
+    }
+
+    @Scheduled(fixedRate = 5000)
+    public void updateAndNotifyIfNecessary() throws IOException {
+        List<DiskUsage> currentDisk = getDiskUsage();
+        List<DiskUsage> cachedDisk = loadStateFromFile(DISK_CACHE_FILE_PATH);
+
+        if (!currentDisk.equals(cachedDisk)) {
+            logger.info("JSON FILES ARE DIFFERENT");
+            saveStateToFile(currentDisk, DISK_CACHE_FILE_PATH);
+            notifyFrontendOfDiskUpdate(currentDisk);
+        }
+    }
+
+    private void notifyFrontendOfDiskUpdate(List<DiskUsage> disk) {
+        logger.info("FE notified of change");
+        messagingTemplate.convertAndSend("/topic/containers", disk);
+    }
+
+    @MessageMapping("/update")
+    @SendTo("/topic/disk")
+    @CrossOrigin("http://localhost:4200")
+    public List<DiskUsage> getDockerContainersUpdate() throws IOException {
+        return getDiskUsage();
+    }
+
+
 }

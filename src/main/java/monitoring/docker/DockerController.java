@@ -3,10 +3,8 @@ package monitoring.docker;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -19,7 +17,7 @@ public class DockerController {
     @Autowired
     private DockerControlService dockerControlService;
 
-
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/dockerInfo")
     public ResponseEntity<String> getResources() throws IOException {
         List<DockerContainer> containers = dockerContainerService.parseDockerJson();

@@ -28,12 +28,6 @@ public class ServerDataController {
     @Autowired
     private ResourceContext resourceContext;
 
-    @GetMapping("/resources")
-    public ResponseEntity<AllServerDataDTO> getResources() throws IOException {
-        AllServerDataDTO resourceData = serverService.getApplicationStatusResource();
-        return ResponseEntity.ok(resourceData);
-    }
-
     @GetMapping("/tomcat")
     public ResponseEntity<AllServerDataDTO> getTomcat() throws IOException {
         AllServerDataDTO resourceData = serverService.getApplicationStatusResource();
